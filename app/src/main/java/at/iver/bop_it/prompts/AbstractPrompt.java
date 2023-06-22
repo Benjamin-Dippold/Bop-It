@@ -1,3 +1,4 @@
+/* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it.prompts;
 
 import android.os.Bundle;
@@ -8,12 +9,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
-
 import at.iver.bop_it.MainActivity;
 
 public abstract class AbstractPrompt extends Fragment {
@@ -25,18 +24,22 @@ public abstract class AbstractPrompt extends Fragment {
         this.layout = layout;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    @Nullable @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(layout, null, false);
-        view.setOnTouchListener(new View.OnTouchListener() {
-            private GestureDetectorCompat gestureDetector = new GestureDetectorCompat(requireContext(), new GestureListener());
+        view.setOnTouchListener(
+                new View.OnTouchListener() {
+                    private GestureDetectorCompat gestureDetector =
+                            new GestureDetectorCompat(requireContext(), new GestureListener());
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        });
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return gestureDetector.onTouchEvent(event);
+                    }
+                });
         startTime = SystemClock.elapsedRealtime();
         return view;
     }
@@ -75,7 +78,11 @@ public abstract class AbstractPrompt extends Fragment {
         }
 
         @Override
-        public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
+        public boolean onFling(
+                @NonNull MotionEvent e1,
+                @NonNull MotionEvent e2,
+                float velocityX,
+                float velocityY) {
             AbstractPrompt.this.onFling();
             return true;
         }
@@ -91,5 +98,4 @@ public abstract class AbstractPrompt extends Fragment {
             AbstractPrompt.this.onLongPress();
         }
     }
-
 }
