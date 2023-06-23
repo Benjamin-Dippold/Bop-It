@@ -1,6 +1,11 @@
 /* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it.prompts;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -15,13 +20,23 @@ import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
 import at.iver.bop_it.MainActivity;
 
-public abstract class AbstractPrompt extends Fragment {
+public abstract class AbstractPrompt extends Fragment implements SensorEventListener {
+
+    private static final String TAG = "AbstractPrompt";
 
     protected long startTime;
     protected int layout;
+    protected int sensorId;
+    private SensorManager sensorManager;
 
     public AbstractPrompt(int layout) {
         this.layout = layout;
+        this.sensorId = -1;
+    }
+
+    public AbstractPrompt(int layout, int sensorId) {
+        this.layout = layout;
+        this.sensorId = sensorId;
     }
 
     @Nullable @Override
@@ -40,8 +55,24 @@ public abstract class AbstractPrompt extends Fragment {
                         return gestureDetector.onTouchEvent(event);
                     }
                 });
+
+        if (sensorId != -1) {
+            sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+            Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            if (sensor != null) {
+                sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+            } else {
+                Log.e(TAG, "Error getting sensor with id: " + sensorId);
+            }
+        }
         startTime = SystemClock.elapsedRealtime();
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (sensorManager != null) sensorManager.unregisterListener(this);
     }
 
     protected void callBackVictorious() {
@@ -49,20 +80,26 @@ public abstract class AbstractPrompt extends Fragment {
         ((MainActivity) getActivity()).promptComplete(endTime - startTime);
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {}
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {}
+
     protected void onSingleTapUp() {
-        Log.v("AbstractPrompt", "onSingleTapUp");
+        Log.v(TAG, "onSingleTapUp");
     }
 
     protected void onFling() {
-        Log.v("AbstractPrompt", "onFling");
+        Log.v(TAG, "onFling");
     }
 
     protected void onDoubleTap() {
-        Log.v("AbstractPrompt", "onDoubleTap");
+        Log.v(TAG, "onDoubleTap");
     }
 
     protected void onLongPress() {
-        Log.v("AbstractPrompt", "onLongPress");
+        Log.v(TAG, "onLongPress");
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {

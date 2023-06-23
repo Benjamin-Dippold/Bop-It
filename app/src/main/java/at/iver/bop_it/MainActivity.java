@@ -13,7 +13,9 @@ import at.iver.bop_it.prompts.AbstractPrompt;
 import at.iver.bop_it.prompts.DoubleTapPrompt;
 import at.iver.bop_it.prompts.FlingPrompt;
 import at.iver.bop_it.prompts.HoldPrompt;
+import at.iver.bop_it.prompts.ShakePrompt;
 import at.iver.bop_it.prompts.TapPrompt;
+import at.iver.bop_it.prompts.TurnPrompt;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,9 +33,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void giveRandomPrompt(View v) {
         // TODO: Get which prompt to do from server, instead of generating itself.
-        Class<? extends AbstractPrompt>[] possiblePrompts =
+        Class<? extends AbstractPrompt>[] possiblePrompts;
+        possiblePrompts =
                 new Class[] {
-                    FlingPrompt.class, TapPrompt.class, DoubleTapPrompt.class, HoldPrompt.class
+                    FlingPrompt.class,
+                    TapPrompt.class,
+                    DoubleTapPrompt.class,
+                    HoldPrompt.class,
+                    ShakePrompt.class,
+                    TurnPrompt.class
                 };
         int randomIndex = new Random().nextInt(possiblePrompts.length);
         swapFragmentTo(possiblePrompts[randomIndex]);
