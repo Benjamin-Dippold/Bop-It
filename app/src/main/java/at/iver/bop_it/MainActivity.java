@@ -9,13 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import at.iver.bop_it.prompts.AbstractPrompt;
-import at.iver.bop_it.prompts.DoubleTapPrompt;
-import at.iver.bop_it.prompts.FlingPrompt;
-import at.iver.bop_it.prompts.HoldPrompt;
-import at.iver.bop_it.prompts.ShakePrompt;
-import at.iver.bop_it.prompts.TapPrompt;
-import at.iver.bop_it.prompts.TurnPrompt;
+import at.iver.bop_it.prompts.*;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
                     DoubleTapPrompt.class,
                     HoldPrompt.class,
                     ShakePrompt.class,
-                    TurnPrompt.class
+                    TurnPrompt.class,
+                    PinchPrompt.class,
+                    ZoomPrompt.class
                 };
         int randomIndex = new Random().nextInt(possiblePrompts.length);
         swapFragmentTo(possiblePrompts[randomIndex]);

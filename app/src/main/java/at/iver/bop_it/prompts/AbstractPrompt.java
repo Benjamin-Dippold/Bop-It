@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -47,12 +48,16 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         View view = inflater.inflate(layout, null, false);
         view.setOnTouchListener(
                 new View.OnTouchListener() {
-                    private GestureDetectorCompat gestureDetector =
+                    private final GestureDetectorCompat gestureDetector =
                             new GestureDetectorCompat(requireContext(), new GestureListener());
+
+                    private final ScaleGestureDetector scaleGestureDetector =
+                            new ScaleGestureDetector(requireContext(), new ScaleGestureListener());
 
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        return gestureDetector.onTouchEvent(event);
+                        return gestureDetector.onTouchEvent(event)
+                                || scaleGestureDetector.onTouchEvent(event);
                     }
                 });
 
@@ -102,6 +107,8 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         Log.v(TAG, "onLongPress");
     }
 
+    protected void onScaleBegin(ScaleGestureDetector scaleGestureDetector) {}
+
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDown(@NonNull MotionEvent e) {
@@ -133,6 +140,15 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         @Override
         public void onLongPress(@NonNull MotionEvent e) {
             AbstractPrompt.this.onLongPress();
+        }
+    }
+
+    private class ScaleGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+
+        @Override
+        public boolean onScaleBegin(@NonNull ScaleGestureDetector scaleGestureDetector) {
+            AbstractPrompt.this.onScaleBegin(scaleGestureDetector);
+            return false;
         }
     }
 }
