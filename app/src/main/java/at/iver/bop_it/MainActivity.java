@@ -3,9 +3,7 @@ package at.iver.bop_it;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -44,17 +42,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void promptComplete(long takenTime) {
-        Toast.makeText(this, "You did it in " + takenTime + "ms!", Toast.LENGTH_SHORT).show();
-        swapFragmentTo(WaitingFragment.class);
+        //  Toast.makeText(this, "You did it in " + takenTime + "ms!", Toast.LENGTH_SHORT).show();
+        swapFragmentToWaiting(takenTime);
         // TODO: Tell server how long it took and stuff.
     }
 
-    public void swapFragmentTo(Class<? extends Fragment> targetFragment) {
+    public void swapFragmentTo(Class<? extends AbstractPrompt> targetFragment) {
         try {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(
                     fragmentContainerView.getId(), targetFragment.newInstance());
+            fragmentTransaction.commit();
+        } catch (IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void swapFragmentToWaiting(long takenTime) {
+        try {
+            WaitingFragment waitingFragment = WaitingFragment.class.newInstance();
+            waitingFragment.setTakenTime(takenTime);
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(fragmentContainerView.getId(), waitingFragment);
             fragmentTransaction.commit();
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
