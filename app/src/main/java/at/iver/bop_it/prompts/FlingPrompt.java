@@ -4,6 +4,7 @@ package at.iver.bop_it.prompts;
 import android.media.MediaPlayer;
 
 import at.iver.bop_it.R;
+import at.iver.bop_it.sound.SoundProvider;
 
 public class FlingPrompt extends AbstractPrompt {
 
@@ -13,8 +14,8 @@ public class FlingPrompt extends AbstractPrompt {
 
     @Override
     protected void playSound() {
-        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.fling);
-        player.start();
+        SoundProvider soundProvider = SoundProvider.getInstance();
+        soundProvider.playFling(getContext());
     }
     @Override
     protected void onFling() {

@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 
 import at.iver.bop_it.R;
+import at.iver.bop_it.sound.SoundProvider;
 
 public class ShakePrompt extends AbstractPrompt {
 
@@ -18,8 +19,8 @@ public class ShakePrompt extends AbstractPrompt {
 
     @Override
     protected void playSound() {
-        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.shake);
-        player.start();
+        SoundProvider soundProvider = SoundProvider.getInstance();
+        soundProvider.playShake(getContext());
     }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {

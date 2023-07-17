@@ -4,6 +4,7 @@ package at.iver.bop_it.prompts;
 import android.media.MediaPlayer;
 import android.view.ScaleGestureDetector;
 import at.iver.bop_it.R;
+import at.iver.bop_it.sound.SoundProvider;
 
 public class ZoomPrompt extends AbstractPrompt {
     private static final float SPAN_THRESHOLD = 500f;
@@ -11,8 +12,8 @@ public class ZoomPrompt extends AbstractPrompt {
 
     @Override
     protected void playSound() {
-        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.zoom);
-        player.start();
+        SoundProvider soundProvider = SoundProvider.getInstance();
+        soundProvider.playZoom(getContext());
     }
     public ZoomPrompt() {
         super(R.layout.zoom_prompt);

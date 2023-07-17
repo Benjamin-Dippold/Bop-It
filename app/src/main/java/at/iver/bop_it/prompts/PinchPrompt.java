@@ -4,6 +4,7 @@ package at.iver.bop_it.prompts;
 import android.media.MediaPlayer;
 import android.view.ScaleGestureDetector;
 import at.iver.bop_it.R;
+import at.iver.bop_it.sound.SoundProvider;
 
 public class PinchPrompt extends AbstractPrompt {
     private static final float SPAN_THRESHOLD = 500f;
@@ -11,8 +12,8 @@ public class PinchPrompt extends AbstractPrompt {
 
     @Override
     protected void playSound() {
-        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.pinch);
-        player.start();
+        SoundProvider soundProvider = SoundProvider.getInstance();
+        soundProvider.playPinch(getContext());
     }
     public PinchPrompt() {
         super(R.layout.pinch_prompt);

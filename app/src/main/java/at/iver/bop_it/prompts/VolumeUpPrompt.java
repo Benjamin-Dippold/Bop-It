@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import at.iver.bop_it.R;
+import at.iver.bop_it.sound.SoundProvider;
 
 public class VolumeUpPrompt extends AbstractPrompt {
 
@@ -16,8 +17,8 @@ public class VolumeUpPrompt extends AbstractPrompt {
 
     @Override
     protected void playSound() {
-        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.volume_up);
-        player.start();
+        SoundProvider soundProvider = SoundProvider.getInstance();
+        soundProvider.playVolumeUp(getContext());
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

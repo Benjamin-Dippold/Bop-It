@@ -8,11 +8,17 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import at.iver.bop_it.prompts.*;
+import at.iver.bop_it.sound.SoundProvider;
+import at.iver.bop_it.sound.VoiceLine;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     private FragmentContainerView fragmentContainerView;
+    private SoundProvider sp = SoundProvider.getInstance();
+    VoiceLine[] voices = VoiceLine.values();
+    private int currentVoice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
         int randomIndex = new Random().nextInt(possiblePrompts.length);
         swapFragmentTo(possiblePrompts[randomIndex]);
     }
+
+    public void changeVoice(View view) {
+        currentVoice = (currentVoice + 1) % voices.length;
+        sp.setVoiceLine(voices[currentVoice]);
+    }
+
 
     public void promptComplete(long takenTime) {
         //  Toast.makeText(this, "You did it in " + takenTime + "ms!", Toast.LENGTH_SHORT).show();

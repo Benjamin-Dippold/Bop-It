@@ -8,6 +8,7 @@ package at.iver.bop_it.prompts;
         import android.view.View;
 
         import at.iver.bop_it.R;
+        import at.iver.bop_it.sound.SoundProvider;
 
 public class VolumeDownPrompt extends AbstractPrompt {
 
@@ -17,8 +18,8 @@ public class VolumeDownPrompt extends AbstractPrompt {
 
     @Override
     protected void playSound() {
-        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.volume_down);
-        player.start();
+        SoundProvider soundProvider = SoundProvider.getInstance();
+        soundProvider.playVolumeDown(getContext());
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.media.MediaPlayer;
 
 import at.iver.bop_it.R;
+import at.iver.bop_it.sound.SoundProvider;
 
 public class TurnPrompt extends AbstractPrompt {
 
@@ -17,8 +18,8 @@ public class TurnPrompt extends AbstractPrompt {
 
     @Override
     protected void playSound() {
-        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.turn);
-        player.start();
+        SoundProvider soundProvider = SoundProvider.getInstance();
+        soundProvider.playTurn(getContext());
     }
     public TurnPrompt() {
         super(R.layout.turn_prompt, Sensor.TYPE_ACCELEROMETER);

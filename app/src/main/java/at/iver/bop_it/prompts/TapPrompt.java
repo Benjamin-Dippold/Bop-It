@@ -4,6 +4,7 @@ package at.iver.bop_it.prompts;
 import android.media.MediaPlayer;
 
 import at.iver.bop_it.R;
+import at.iver.bop_it.sound.SoundProvider;
 
 public class TapPrompt extends AbstractPrompt {
 
@@ -13,8 +14,8 @@ public class TapPrompt extends AbstractPrompt {
 
     @Override
     protected void playSound() {
-        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.single_tap);
-        player.start();
+        SoundProvider soundProvider = SoundProvider.getInstance();
+        soundProvider.playSingletap(getContext());
     }
     @Override
     protected void onSingleTapUp() {

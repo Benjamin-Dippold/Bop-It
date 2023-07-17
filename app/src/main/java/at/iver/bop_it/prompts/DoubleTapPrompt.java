@@ -4,6 +4,7 @@ package at.iver.bop_it.prompts;
 import android.media.MediaPlayer;
 
 import at.iver.bop_it.R;
+import at.iver.bop_it.sound.SoundProvider;
 
 public class DoubleTapPrompt extends AbstractPrompt {
     public DoubleTapPrompt() {
@@ -11,9 +12,9 @@ public class DoubleTapPrompt extends AbstractPrompt {
     }
 
     @Override
-    protected void playSound() {
-        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.double_tap);
-        player.start();
+    protected void playSound(){
+        SoundProvider soundProvider = SoundProvider.getInstance();
+        soundProvider.playDoubletap(getContext());
     }
 
     @Override
