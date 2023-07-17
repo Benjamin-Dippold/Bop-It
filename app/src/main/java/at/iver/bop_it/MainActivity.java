@@ -1,24 +1,31 @@
 /* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import at.iver.bop_it.network.DataKey;
+import at.iver.bop_it.network.Message;
+import at.iver.bop_it.network.MessageType;
+import at.iver.bop_it.network.client.ClientConnector;
 import at.iver.bop_it.network.server.ServerThread;
 import at.iver.bop_it.prompts.*;
 
 import java.io.IOException;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements UIUpdateListener {
 
     private FragmentContainerView fragmentContainerView;
     private ServerThread server;
@@ -26,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean isHost = false;
     private int playerId;
     protected String playerName = "";
+    private String connectionIP;
+    private static ClientConnector connection;
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentContainerView = findViewById(R.id.fragmentContainerView2);
 
         // TODO: Like all the server shit
+        toMainMenu(new View(context));
+
+    }
+
+    public void toMainMenu(View view) {
         setContentView(R.layout.menu);
         if (!playerName.isEmpty()) {
             TextView nameInput = findViewById(R.id.name_chooser);
@@ -135,6 +150,71 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void showIp(View view) {
+        runOnUiThread(
+                () -> {
+                    TextView showIp = (TextView) findViewById(R.id.ip_label);
+                    TextView showIpOutline = (TextView) findViewById(R.id.ip_label_outline);
+
+                    connectionIP = server.getIpAddr();
+
+                    showIp.setText(connectionIP);
+                    showIpOutline.setText(connectionIP);
+
+                    connection = new ClientConnector(this);
+                    connection.setConnectionTarget(connectionIP, connectionPort);
+                    connection.start();
+                });
+    }
+
+    @Override
+    public void updateUI(Message message) {
+
+    }
+
+    public void clientCallback(boolean success) {
+        runOnUiThread(
+                () -> {
+                    if (!isHost) {
+                        Button join = (Button) findViewById(R.id.join);
+                        join.setVisibility(View.VISIBLE);
+
+                        if (!success) {
+                            Toast.makeText(
+                                            this,
+                                            "Unable to make Connection. Please recheck IP-Address.",
+                                            Toast.LENGTH_SHORT)
+                                    .show();
+                            return;
+                        }
+                        startGame(new View(this));
+                    }
+                });
+    }
+
+    public void startGame(View view) {
+        if (isHost) {
+            server.setupClients();
+        }
+
+        if (isHost) {
+            this.playerId = 0;
+        } else {
+            this.playerId = 1;
+        }
+
+        if (!playerName.isEmpty()) {
+            Message nameChange = new Message(MessageType.NAME);
+            nameChange.setData(DataKey.NAME, playerName);
+            nameChange.setData(DataKey.TARGET_PLAYER, playerId);
+            try {
+                connection.sendMessage(nameChange);
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
         }
     }
 }

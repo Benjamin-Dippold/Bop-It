@@ -35,7 +35,6 @@ public class ServerThread extends Thread {
     @SuppressLint("StaticFieldLeak")
     private static ServerThread instance;
 
-    private GameSession gameSession;
     private ServerSocket serverSocket;
     private final ArrayList<ClientHandler> connections = new ArrayList<>();
 
@@ -80,44 +79,11 @@ public class ServerThread extends Thread {
 
     public void setupClients() {
         for (ClientHandler client : connections) {
-            int playerTurnNumber = getTurnNumber(client);
-            Player player = gameSession.getPlayers().get(playerTurnNumber);
-
-            Log.i(
-                    "DECK TROUBLE",
-                    "Size of deck setupClients: "
-                            + player.getPlayArea().getPlayerCards().getDeckCards().size());
-
-            Player opponent = gameSession.getOpponent(player);
-            int opponentTurnNumber = gameSession.getPlayers().indexOf(opponent);
-
-            sendPlayerAndOpponentStats(
-                    client, playerTurnNumber, player, opponentTurnNumber, opponent);
-            sendFullDeck(client);
-            dealCardsToPlayerAndOpponent(
-                    client, playerTurnNumber, player, opponentTurnNumber, opponent);
-            dealMarketCardsToPurchaseArea(client);
         }
-        sendTurnNotificationToAllClients(
-                gameSession.getPlayerTurnNumber(gameSession.getCurrentPlayer()));
     }
 
     private void createGame() {
-        Player player1 = PlayerFactory.createPlayer("Player 1");
-        Player player2 = PlayerFactory.createPlayer("Player 2");
-        player1.getPlayArea()
-                .getPlayerCards()
-                .setDeckCards(DeckGenerator.generatePlayerStarterDeck(context));
-        player2.getPlayArea()
-                .getPlayerCards()
-                .setDeckCards(DeckGenerator.generatePlayerStarterDeck(context));
-        Market.getInstance().setMarketDeck(DeckGenerator.generateMarketDeck(context));
-        List<Player> players = List.of(player1, player2);
-        gameSession = new GameSession(players, player1);
-        Log.i(
-                "DECK TROUBLE",
-                "Size of deck createGame: "
-                        + player1.getPlayArea().getPlayerCards().getDeckCards().size());
+
     }
 
     public int getTurnNumber(ClientHandler client) {
@@ -214,15 +180,6 @@ public class ServerThread extends Thread {
         }
     }
 
-    public GameSession getGameSession() {
-        return gameSession;
-    }
-
-    public void sendNameChangeToAll(String name, int targetPlayer) throws IOException {
-        gameSession.getPlayers().get(targetPlayer).setPlayerName(name);
-        Message updatedName =
-                Communication.createPlayerStatsMessage(
-                        targetPlayer, gameSession.getPlayers().get(targetPlayer));
-        sendMessageToAllClients(updatedName);
+    public void sendNameChangeToAll(String data, int data1) {
     }
 }

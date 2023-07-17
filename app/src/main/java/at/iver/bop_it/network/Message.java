@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import at.vunfer.openrealms.model.Deck;
 
 public class Message implements Serializable {
     private MessageType type;
@@ -55,8 +54,6 @@ public class Message implements Serializable {
             case YOUR_TURN:
             case CHEAT_ACTIVATE:
                 return value instanceof Boolean;
-            case COLLECTION:
-                return value instanceof Deck;
             default:
                 return false;
         }

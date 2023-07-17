@@ -9,7 +9,6 @@ import java.io.ObjectOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import at.vunfer.openrealms.model.Player;
 
 public class Communication {
 
@@ -113,19 +112,6 @@ public class Communication {
         return removeCardMsg;
     }
 
-    public static Message createPlayerStatsMessage(int targetPlayerTurnNumber, Player player) {
-        Message playerStatsMsg = new Message(MessageType.UPDATE_PLAYER_STATS);
-        playerStatsMsg.setData(DataKey.TARGET_PLAYER, targetPlayerTurnNumber);
-        playerStatsMsg.setData(
-                DataKey.PLAYER_STATS,
-                new PlayerStats(
-                        player.getPlayerName(),
-                        player.getPlayArea().getHealth(),
-                        player.getPlayArea().getTurnDamage(),
-                        player.getPlayArea().getTurnHealing(),
-                        player.getPlayArea().getTurnCoins()));
-        return playerStatsMsg;
-    }
 
     public static Message createCheatStatusMessage(boolean isCheating) {
         Message cheatStatusMsg = new Message(MessageType.CHEAT);
