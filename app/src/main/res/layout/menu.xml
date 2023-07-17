@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menu">
+
+    <TextView
+        android:id="@+id/startGamePromptOutline"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="DO YOU WANT TO HOST OR JOIN A GAME:"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@id/startGamePrompt"
+        app:layout_constraintEnd_toEndOf="@id/startGamePrompt"
+        app:layout_constraintStart_toStartOf="@id/startGamePrompt"
+        app:layout_constraintTop_toTopOf="@id/startGamePrompt" />
+
+    <TextView
+        android:id="@+id/startGamePrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="DO YOU WANT TO HOST OR JOIN A GAME:"
+        android:textColor="@android:color/holo_orange_light"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@id/hostButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75" />
+
+    <Button
+        android:id="@+id/hostButton"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_states"
+        android:onClick="hostGame"
+        android:text="Host"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/join"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startGamePromptOutline" />
+
+    <Button
+        android:id="@+id/join"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_states"
+        android:onClick="joinGame"
+        android:text="Join"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hostButton" />
+
+    <ImageView
+        android:id="@+id/name_chooser2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/name_chooser"
+        app:layout_constraintEnd_toEndOf="@+id/name_chooser"
+        app:layout_constraintStart_toStartOf="@+id/name_chooser"
+        app:layout_constraintTop_toTopOf="@+id/name_chooser"
+        app:srcCompat="@android:drawable/screen_background_dark_transparent" />
+
+    <EditText
+        android:id="@+id/name_chooser"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:hint="Choose a name:"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
