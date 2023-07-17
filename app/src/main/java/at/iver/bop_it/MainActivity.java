@@ -35,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
                     ShakePrompt.class,
                     TurnPrompt.class,
                     PinchPrompt.class,
-                    ZoomPrompt.class
+                    ZoomPrompt.class,
+                        VolumeUpPrompt.class,
+                        VolumeDownPrompt.class
                 };
         int randomIndex = new Random().nextInt(possiblePrompts.length);
         swapFragmentTo(possiblePrompts[randomIndex]);
