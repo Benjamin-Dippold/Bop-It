@@ -4,6 +4,8 @@ package at.iver.bop_it.prompts;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
+
 import at.iver.bop_it.R;
 
 public class ShakePrompt extends AbstractPrompt {
@@ -14,6 +16,11 @@ public class ShakePrompt extends AbstractPrompt {
         super(R.layout.shake_promt, Sensor.TYPE_ACCELEROMETER);
     }
 
+    @Override
+    protected void playSound() {
+        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.shake);
+        player.start();
+    }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         float x = sensorEvent.values[0];

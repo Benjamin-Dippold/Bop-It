@@ -1,6 +1,7 @@
 package at.iver.bop_it.prompts;
 
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,6 +14,11 @@ public class VolumeUpPrompt extends AbstractPrompt {
         super(R.layout.volumeup_prompt);
     }
 
+    @Override
+    protected void playSound() {
+        final MediaPlayer player = MediaPlayer.create(getContext(), R.raw.volume_up);
+        player.start();
+    }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

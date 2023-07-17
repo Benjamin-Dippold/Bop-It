@@ -24,6 +24,7 @@ import at.iver.bop_it.MainActivity;
 public abstract class AbstractPrompt extends Fragment implements SensorEventListener {
 
     private static final String TAG = "AbstractPrompt";
+    private boolean isVictorious = false;
 
     protected long startTime;
     protected int layout;
@@ -71,6 +72,7 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
             }
         }
         startTime = SystemClock.elapsedRealtime();
+        playSound();
         return view;
     }
 
@@ -81,9 +83,13 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
     }
 
     protected void callBackVictorious() {
+        if(isVictorious) return;
+        isVictorious = true;
         long endTime = SystemClock.elapsedRealtime();
         ((MainActivity) getActivity()).promptComplete(endTime - startTime);
     }
+
+    protected abstract void playSound();
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {}
