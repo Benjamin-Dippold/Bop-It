@@ -85,6 +85,10 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         ((MainActivity) getActivity()).promptComplete(endTime - startTime);
     }
 
+    protected void callBackFailure() {
+        ((MainActivity) getActivity()).promptComplete(Long.MAX_VALUE);
+    }
+
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {}
 

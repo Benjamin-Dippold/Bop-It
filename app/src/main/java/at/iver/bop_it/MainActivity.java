@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import at.iver.bop_it.prompts.*;
+import at.iver.bop_it.prompts.solve_it.SolvePrompt;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
                     ShakePrompt.class,
                     TurnPrompt.class,
                     PinchPrompt.class,
-                    ZoomPrompt.class
+                    ZoomPrompt.class,
+                    SolvePrompt.class
                 };
         int randomIndex = new Random().nextInt(possiblePrompts.length);
         swapFragmentTo(possiblePrompts[randomIndex]);
