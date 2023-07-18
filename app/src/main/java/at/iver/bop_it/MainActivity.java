@@ -68,11 +68,6 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         isHost = false;
     }
 
-    public void startGame() {
-        setContentView(R.layout.activity_main);
-        fragmentContainerView = findViewById(R.id.fragmentContainerView2);
-    }
-
     public void hostGame(View view) {
         setupName();
         setContentView(R.layout.host);
@@ -168,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         connection.setConnectionTarget(connectionIP, connectionPort);
         connection.start();
 
-        startGame();
+        //startGame(new View(context));
     }
 
 
@@ -199,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                 () -> {
                     if (!isHost) {
                         Button join = (Button) findViewById(R.id.join2);
-                        //join.setVisibility(View.VISIBLE);
+                        join.setVisibility(View.VISIBLE);
 
                         if (!success) {
                             Toast.makeText(
