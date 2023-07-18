@@ -2,11 +2,12 @@
 package at.iver.bop_it;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     private static final int connectionPort = 1337;
     private boolean isHost = false;
     private int playerId;
+    private static final String TAG = MainActivity.class.getSimpleName();
     protected String playerName = "";
     private String connectionIP;
     private static ClientConnector connection;
@@ -40,12 +42,9 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        fragmentContainerView = findViewById(R.id.fragmentContainerView2);
 
-        // TODO: Like all the server shit
+        // server stuff
         toMainMenu(new View(context));
-
     }
 
     public void toMainMenu(View view) {
@@ -67,6 +66,11 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         outline.getPaint().setStrokeWidth(5);
         outline.getPaint().setStyle(Paint.Style.STROKE);
         isHost = false;
+    }
+
+    public void startGame() {
+        setContentView(R.layout.activity_main);
+        fragmentContainerView = findViewById(R.id.fragmentContainerView2);
     }
 
     public void hostGame(View view) {
@@ -152,6 +156,21 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
             e.printStackTrace();
         }
     }
+    public void connectServer(View view) {
+        EditText getIp = (EditText) findViewById(R.id.get_text);
+        Button join = (Button) findViewById(R.id.join2);
+
+        join.setVisibility(View.INVISIBLE);
+        connectionIP = getIp.getText().toString();
+        Log.i(TAG, "Connecting to IP: " + connectionIP);
+        connection = new ClientConnector(this);
+
+        connection.setConnectionTarget(connectionIP, connectionPort);
+        connection.start();
+
+        startGame();
+    }
+
 
     public void showIp(View view) {
         runOnUiThread(
@@ -179,8 +198,8 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         runOnUiThread(
                 () -> {
                     if (!isHost) {
-                        Button join = (Button) findViewById(R.id.join);
-                        join.setVisibility(View.VISIBLE);
+                        Button join = (Button) findViewById(R.id.join2);
+                        //join.setVisibility(View.VISIBLE);
 
                         if (!success) {
                             Toast.makeText(
@@ -216,5 +235,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                 throw new IllegalStateException(e);
             }
         }
+        setContentView(R.layout.activity_main);
+        fragmentContainerView = findViewById(R.id.fragmentContainerView2);
     }
 }

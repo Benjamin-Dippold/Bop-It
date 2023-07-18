@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/startGamePromptOutline"
         android:layout_width="300dp"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
         android:text="DO YOU WANT TO HOST OR JOIN A GAME:"
         android:textColor="@color/black"
@@ -23,7 +23,7 @@
     <TextView
         android:id="@+id/startGamePrompt"
         android:layout_width="300dp"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
         android:textAlignment="center"
         android:text="DO YOU WANT TO HOST OR JOIN A GAME:"
@@ -44,13 +44,13 @@
         android:text="Host"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/join"
+        app:layout_constraintBottom_toTopOf="@+id/join2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startGamePromptOutline" />
 
     <Button
-        android:id="@+id/join"
+        android:id="@+id/join2"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:background="@drawable/button_states"

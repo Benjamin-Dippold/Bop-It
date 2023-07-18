@@ -50,15 +50,16 @@
         android:layout_height="50dp"
         android:hint="IP Address"
         android:inputType="text"
+        android:textColor="@color/white"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/join"
+        app:layout_constraintBottom_toTopOf="@id/join2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.75" />
 
     <Button
-        android:id="@+id/join"
+        android:id="@+id/join2"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:background="@drawable/button_states"
@@ -83,7 +84,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/join" />
+        app:layout_constraintTop_toBottomOf="@id/join2" />
 
     <ImageView
         android:id="@+id/connectingLabel2"
@@ -104,9 +105,9 @@
         android:text="Connecting..."
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/join"
-        app:layout_constraintEnd_toEndOf="@+id/join"
-        app:layout_constraintStart_toStartOf="@+id/join"
-        app:layout_constraintTop_toTopOf="@+id/join" />
+        app:layout_constraintBottom_toBottomOf="@+id/join2"
+        app:layout_constraintEnd_toEndOf="@+id/join2"
+        app:layout_constraintStart_toStartOf="@+id/join2"
+        app:layout_constraintTop_toTopOf="@+id/join2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
