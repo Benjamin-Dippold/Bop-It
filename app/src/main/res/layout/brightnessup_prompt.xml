@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
         android:gravity="center"
-        android:text="Down the Volume!"
+        android:text="Brightness Up!"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,5 +26,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@drawable/volumedown" />
+        app:srcCompat="@drawable/brightnessupp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

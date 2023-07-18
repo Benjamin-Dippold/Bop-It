@@ -1,7 +1,10 @@
 /* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
@@ -17,6 +20,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        while(!(Settings.System.canWrite(this))) {
+
+            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+            intent.setData(Uri.parse("package:" + this.getPackageName()));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
         setContentView(R.layout.activity_main);
         fragmentContainerView = findViewById(R.id.fragmentContainerView2);
 
@@ -37,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
                     PinchPrompt.class,
                     ZoomPrompt.class,
                         VolumeUpPrompt.class,
-                        VolumeDownPrompt.class
+                        VolumeDownPrompt.class,
+                        BrightnessUpPrompt.class,
+                        BrightnessDownPrompt.class
                 };
         int randomIndex = new Random().nextInt(possiblePrompts.length);
         swapFragmentTo(possiblePrompts[randomIndex]);
