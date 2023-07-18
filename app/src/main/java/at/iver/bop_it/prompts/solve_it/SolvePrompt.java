@@ -13,7 +13,7 @@ public class SolvePrompt extends AbstractPrompt {
     public SolvePrompt() {
         super(R.layout.solve_prompt);
         // TODO: Figure out how to get this from Server
-        question = new Question("12 + 5 = ", "1", "2", "3", "17", 4);
+        question = Question.getRandomQuestion();
     }
 
     @Override
