@@ -38,19 +38,20 @@ public class MainActivity extends AppCompatActivity {
         Class<? extends AbstractPrompt>[] possiblePrompts;
         possiblePrompts =
                 new Class[] {
-//                    FlingPrompt.class,
-//                    TapPrompt.class,
-//                    DoubleTapPrompt.class,
-//                    HoldPrompt.class,
-//                    ShakePrompt.class,
-//                    TurnPrompt.class,
-//                    PinchPrompt.class,
-//                    ZoomPrompt.class,
-//                        VolumeUpPrompt.class,
-//                        VolumeDownPrompt.class,
-//                        BrightnessUpPrompt.class,
-//                        BrightnessDownPrompt.class,
-                        NorthPrompt.class
+                    FlingPrompt.class,
+                    TapPrompt.class,
+                    DoubleTapPrompt.class,
+                    HoldPrompt.class,
+                    ShakePrompt.class,
+                    TurnPrompt.class,
+                    PinchPrompt.class,
+                    ZoomPrompt.class,
+                        VolumeUpPrompt.class,
+                        VolumeDownPrompt.class,
+                        BrightnessUpPrompt.class,
+                        BrightnessDownPrompt.class,
+                        NorthPrompt.class,
+                        ThrowPrompt.class
                 };
         int randomIndex = new Random().nextInt(possiblePrompts.length);
         swapFragmentTo(possiblePrompts[randomIndex]);
