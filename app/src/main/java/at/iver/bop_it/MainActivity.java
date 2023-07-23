@@ -26,18 +26,35 @@ import at.iver.bop_it.prompts.*;
 import java.io.IOException;
 import java.util.Random;
 
+import static at.iver.bop_it.network.Communication.generatePromptMessage;
+import static at.iver.bop_it.network.Communication.generateFinishMessage;
+
 public class MainActivity extends AppCompatActivity implements UIUpdateListener {
 
     private FragmentContainerView fragmentContainerView;
     private ServerThread server;
     private static final int connectionPort = 1337;
     private boolean isHost = false;
-    private int playerId;
+    private int playerId= -1;
     private static final String TAG = MainActivity.class.getSimpleName();
     protected String playerName = "";
     private String connectionIP;
     private static ClientConnector connection;
     private final Context context = this;
+
+    Class<? extends AbstractPrompt>[]
+            possiblePrompts =
+            new Class[] {
+                    FlingPrompt.class,
+                    TapPrompt.class,
+                    DoubleTapPrompt.class,
+                    HoldPrompt.class,
+                    ShakePrompt.class,
+                    TurnPrompt.class,
+                    PinchPrompt.class,
+                    ZoomPrompt.class
+            };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,50 +119,54 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     }
 
 
-    public void giveRandomPrompt(View v) {
+    public void giveRandomPrompt(View v) throws IllegalAccessException, InstantiationException, IOException {
         // TODO: Get which prompt to do from server, instead of generating itself.
-        Class<? extends AbstractPrompt>[] possiblePrompts;
-        possiblePrompts =
-                new Class[] {
-                    FlingPrompt.class,
-                    TapPrompt.class,
-                    DoubleTapPrompt.class,
-                    HoldPrompt.class,
-                    ShakePrompt.class,
-                    TurnPrompt.class,
-                    PinchPrompt.class,
-                    ZoomPrompt.class
-                };
+
         int randomIndex = new Random().nextInt(possiblePrompts.length);
-        swapFragmentTo(possiblePrompts[randomIndex]);
+
+        server.sendMessageToAllClients(generatePromptMessage(randomIndex));
+
     }
 
-    public void promptComplete(long takenTime) {
-        //  Toast.makeText(this, "You did it in " + takenTime + "ms!", Toast.LENGTH_SHORT).show();
-        swapFragmentToWaiting(takenTime);
-        // TODO: Tell server how long it took and stuff.
+    public void promptComplete(long takenTime) throws IOException {
+        Log.i(TAG, "Prompt complete, time taken: " + takenTime);
+        connection.sendMessage(generateFinishMessage(playerId,takenTime));
+        long[] takenTimeArray = new long[2];
+        takenTimeArray[0] = takenTime;
+        swapFragmentToWaiting(takenTimeArray);
     }
 
-    public void swapFragmentTo(Class<? extends AbstractPrompt> targetFragment) {
+    public void showResult(long[] takenTime) {
+        long[] adjustedResults = new long[2];
+        adjustedResults[0] = takenTime[playerId];
+        adjustedResults[1] = takenTime[1-playerId];
+        swapFragmentToWaiting(adjustedResults);
+    }
+
+    public void swapFragmentTo(int prompt) {
         try {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(
-                    fragmentContainerView.getId(), targetFragment.newInstance());
+                    fragmentContainerView.getId(), possiblePrompts[prompt].newInstance());
             fragmentTransaction.commit();
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
     }
 
-    public void swapFragmentToWaiting(long takenTime) {
+    public void swapFragmentToWaiting(long[] results) {
         try {
             WaitingFragment waitingFragment = WaitingFragment.class.newInstance();
-            waitingFragment.setTakenTime(takenTime);
+            waitingFragment.setResults(results);
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentContainerView.getId(), waitingFragment);
+            if (!isHost) {
+                Button button = findViewById(R.id.btn_prompt);
+                button.setVisibility(View.INVISIBLE);
+            }
             fragmentTransaction.commit();
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
@@ -186,7 +207,20 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
 
     @Override
     public void updateUI(Message message) {
-
+        runOnUiThread(
+                () -> {
+                    if (message.getType() == MessageType.PROMPT) {
+                        swapFragmentTo((int)message.getData(DataKey.TYPE));
+                    }
+                    if (message.getType() == MessageType.GIVE_ID) {
+                        playerId = (int) message.getData(DataKey.ID);
+                        Log.d(TAG, "Player ID: " + playerId);
+                    }
+                    if(message.getType() == MessageType.RESULTS){
+                        long[] takenTime = (long[]) message.getData(DataKey.RESULTS);
+                        showResult(takenTime);
+                    }
+                });
     }
 
     public void clientCallback(boolean success) {
@@ -210,27 +244,17 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     }
 
     public void startGame(View view) {
-        if (isHost) {
-            server.setupClients();
-        }
 
-        if (isHost) {
-            this.playerId = 0;
-        } else {
-            this.playerId = 1;
-        }
-
-        if (!playerName.isEmpty()) {
-            Message nameChange = new Message(MessageType.NAME);
-            nameChange.setData(DataKey.NAME, playerName);
-            nameChange.setData(DataKey.TARGET_PLAYER, playerId);
-            try {
-                connection.sendMessage(nameChange);
-            } catch (IOException e) {
-                throw new IllegalStateException(e);
-            }
-        }
         setContentView(R.layout.activity_main);
         fragmentContainerView = findViewById(R.id.fragmentContainerView2);
+
+        if (!isHost) {
+            swapFragmentToWaiting(new long[2]);
+
+            Log.i(TAG, "Starting game as client");
+        }
+        else {
+            Log.i(TAG, "Starting game as host");
+        }
     }
 }

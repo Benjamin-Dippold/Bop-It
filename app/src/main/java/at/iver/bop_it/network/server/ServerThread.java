@@ -1,6 +1,9 @@
 /* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it.network.server;
 
+import static at.iver.bop_it.network.Communication.generateGiveIdMessage;
+import static at.iver.bop_it.network.Communication.generateResultsMessage;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -17,14 +20,14 @@ import java.net.ServerSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import at.iver.bop_it.MainActivity;
-import at.iver.bop_it.network.Communication;
-import at.iver.bop_it.network.DataKey;
-import at.iver.bop_it.network.DeckType;
+
 import at.iver.bop_it.network.Message;
-import at.iver.bop_it.network.MessageType;
+
 
 public class ServerThread extends Thread {
     private static final String TAG = "ServerThread";
@@ -37,6 +40,8 @@ public class ServerThread extends Thread {
 
     private ServerSocket serverSocket;
     private final ArrayList<ClientHandler> connections = new ArrayList<>();
+    private boolean waitingForFinishers = false;
+    private final Map<Integer, Long> finishers = new HashMap<>();
 
     public ServerThread(Context context, int port) {
         this.context = context;
@@ -50,6 +55,7 @@ public class ServerThread extends Thread {
             setupServer();
             ((MainActivity) context).showIp(new View(context));
             acceptConnections();
+            giveClientsTheirId();
         } catch (IOException ex) {
             Log.e(TAG, "IO Exception on Server!", ex);
         }
@@ -57,6 +63,14 @@ public class ServerThread extends Thread {
             createGame();
             ((MainActivity) context)
                     .runOnUiThread(() -> ((MainActivity) context).startGame(new View(context)));
+        }
+    }
+
+    private void giveClientsTheirId() {
+        int i = 0;
+        for (ClientHandler client : connections) {
+            client.sendMessage(generateGiveIdMessage(i));
+            i++;
         }
     }
 
@@ -77,13 +91,37 @@ public class ServerThread extends Thread {
         return client;
     }
 
-    public void setupClients() {
-        for (ClientHandler client : connections) {
-        }
-    }
-
     private void createGame() {
 
+    }
+
+    public synchronized void addFinishedPlayer(int playerId, long finishTime) {
+        finishers.put(playerId, finishTime);
+    }
+
+    public boolean isWaitingForFinishers() {
+        return waitingForFinishers;
+    }
+
+    public synchronized void setWaitingForFinishers(boolean waitingForFinishers) {
+        this.waitingForFinishers = waitingForFinishers;
+    }
+
+    public synchronized void processFinishers() throws IOException {
+        // processing finishers
+        long[] results = new long[connections.size()];
+
+        for(int i = 0; i < connections.size(); i++) {
+            if (finishers.containsKey(i)) {
+                results[i] = finishers.get(i);
+            } else {
+                results[i] = -1;
+            }
+        }
+
+        sendMessageToAllClients(generateResultsMessage(results));
+
+        finishers.clear();  // clear the list after processing
     }
 
     public int getTurnNumber(ClientHandler client) {
@@ -169,17 +207,13 @@ public class ServerThread extends Thread {
     private int numOfRematchRequests;
 
     public void sendRematchToAll() throws IOException {
-        numOfRematchRequests++;
-        Log.d(TAG, "Processing REMATCH_REQUEST, numOfRequests= " + numOfRematchRequests);
-        if (numOfRematchRequests == connections.size()) {
-            Log.d(TAG, "Requirements for rematch met, sending command.");
-            numOfRematchRequests = 0;
-            Message rematch = new Message(MessageType.REMATCH);
-            createGame();
-            sendMessageToAllClients(rematch);
-        }
+
     }
 
     public void sendNameChangeToAll(String data, int data1) {
+    }
+
+    public boolean isPlayerFinished(int playerId) {
+        return finishers.containsKey(playerId);
     }
 }

@@ -9,6 +9,8 @@ import java.io.ObjectOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import at.iver.bop_it.prompts.AbstractPrompt;
+
 
 public class Communication {
 
@@ -60,62 +62,29 @@ public class Communication {
         output.close();
     }
 
-    public static Message createAddCardMessage(
-            int targetPlayerTurnNumber, DeckType deckType, int cardId) {
-        Message addCardMsg = new Message(MessageType.ADD_CARD);
-        addCardMsg.setData(DataKey.TARGET_PLAYER, targetPlayerTurnNumber);
-        addCardMsg.setData(DataKey.DECK, deckType);
-        addCardMsg.setData(DataKey.CARD_ID, cardId);
-        return addCardMsg;
-    }
-
-    public static Message createRemoveCardMessage(
-            int targetPlayerTurnNumber, DeckType deckType, int cardId) {
-        Message removeCardMsg = new Message(MessageType.REMOVE_CARD);
-        removeCardMsg.setData(DataKey.TARGET_PLAYER, targetPlayerTurnNumber);
-        removeCardMsg.setData(DataKey.DECK, deckType);
-        removeCardMsg.setData(DataKey.CARD_ID, cardId);
-        return removeCardMsg;
-    }
-
-    public static Message createExpendChampionMessage(int targetPlayerTurnNumber, int cardId) {
-        Message expendChampionMsg = new Message(MessageType.EXPEND_CHAMPION);
-        expendChampionMsg.setData(DataKey.TARGET_PLAYER, targetPlayerTurnNumber);
-        expendChampionMsg.setData(DataKey.CARD_ID, cardId);
-        return expendChampionMsg;
-    }
-
-    public static Message createResetChampionMessage(int targetPlayerTurnNumber, int cardId) {
-        Message resetChampionsMsg = new Message(MessageType.RESET_CHAMPION);
-        resetChampionsMsg.setData(DataKey.TARGET_PLAYER, targetPlayerTurnNumber);
-        resetChampionsMsg.setData(DataKey.CARD_ID, cardId);
-        return resetChampionsMsg;
-    }
-
-    public static Message createTurnNotificationMessage(int targetPlayerTurnNumber) {
-        Message turnNotificationMsg = new Message(MessageType.TURN_NOTIFICATION);
-        turnNotificationMsg.setData(DataKey.TARGET_PLAYER, targetPlayerTurnNumber);
-        return turnNotificationMsg;
-    }
-
-    public static Message createAddMarketCardMessage(DeckType deckType, int cardId) {
-        Message addCardMsg = new Message(MessageType.ADD_CARD);
-        addCardMsg.setData(DataKey.DECK, deckType);
-        addCardMsg.setData(DataKey.CARD_ID, cardId);
-        return addCardMsg;
-    }
-
-    public static Message createRemoveMarketCardMessage(DeckType deckType, int cardId) {
-        Message removeCardMsg = new Message(MessageType.REMOVE_CARD);
-        removeCardMsg.setData(DataKey.DECK, deckType);
-        removeCardMsg.setData(DataKey.CARD_ID, cardId);
-        return removeCardMsg;
+    public static Message generateGiveIdMessage(int id) {
+        Message message = new Message(MessageType.GIVE_ID);
+        message.setData(DataKey.ID, id);
+        return message;
     }
 
 
-    public static Message createCheatStatusMessage(boolean isCheating) {
-        Message cheatStatusMsg = new Message(MessageType.CHEAT);
-        cheatStatusMsg.setData(DataKey.CHEAT_ACTIVATE, isCheating);
-        return cheatStatusMsg;
+    public static Message generatePromptMessage(int prompt) {
+        Message message = new Message(MessageType.PROMPT);
+        message.setData(DataKey.TYPE, prompt);
+        return message;
+    }
+
+    public static Message generateFinishMessage(int id, long time) {
+        Message message = new Message(MessageType.FINISH);
+        message.setData(DataKey.ID, id);
+        message.setData(DataKey.TIME, time);
+        return message;
+    }
+
+    public static Message generateResultsMessage(long[] times) {
+        Message message = new Message(MessageType.RESULTS);
+        message.setData(DataKey.RESULTS, times);
+        return message;
     }
 }

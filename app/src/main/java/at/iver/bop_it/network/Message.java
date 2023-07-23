@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import at.iver.bop_it.prompts.AbstractPrompt;
+
 
 public class Message implements Serializable {
     private MessageType type;
@@ -40,22 +42,16 @@ public class Message implements Serializable {
      */
     private boolean validateData(DataKey key, Object value) {
         switch (key) {
-            case TARGET_PLAYER:
-            case CARD_ID:
+            case TYPE:
+            case ID:
                 return value instanceof Integer;
-            case DECK:
-                return value instanceof DeckType;
-            case CHOICE:
-            case OPTIONS:
-            case NAME:
-                return value instanceof String;
-            case PLAYER_STATS:
-                return value instanceof PlayerStats;
-            case YOUR_TURN:
-            case CHEAT_ACTIVATE:
-                return value instanceof Boolean;
+            case TIME:
+                return value instanceof Long;
+            case RESULTS:
+                return value instanceof long[];
             default:
                 return false;
         }
     }
+
 }

@@ -3,6 +3,9 @@ package at.iver.bop_it.prompts;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+
+import java.io.IOException;
+
 import at.iver.bop_it.R;
 
 public class TurnPrompt extends AbstractPrompt {
@@ -39,10 +42,18 @@ public class TurnPrompt extends AbstractPrompt {
             // Check if the phone has been turned sideways
             if (!isSideways && (deltaX > THRESHOLD || deltaY > THRESHOLD)) {
                 isSideways = true;
-                callBackVictorious();
+                try {
+                    callBackVictorious();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             } else if (isSideways && deltaX < THRESHOLD && deltaY < THRESHOLD) {
                 isSideways = false;
-                callBackVictorious();
+                try {
+                    callBackVictorious();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
