@@ -26,35 +26,26 @@ public class SolvePrompt extends AbstractPrompt {
 
         Button optionA = v.findViewById(R.id.optionA);
         optionA.setText(question.getOptionA());
-        optionA.setOnClickListener((View view) -> callBackFailure());
+        optionA.setOnClickListener((View view) -> evaluateResult(question.getOptionA()));
 
         Button optionB = v.findViewById(R.id.optionB);
         optionB.setText(question.getOptionB());
-        optionB.setOnClickListener((View view) -> callBackFailure());
+        optionB.setOnClickListener((View view) -> evaluateResult(question.getOptionB()));
 
         Button optionC = v.findViewById(R.id.optionC);
         optionC.setText(question.getOptionC());
-        optionC.setOnClickListener((View view) -> callBackFailure());
+        optionC.setOnClickListener((View view) -> evaluateResult(question.getOptionC()));
 
         Button optionD = v.findViewById(R.id.optionD);
         optionD.setText(question.getOptionD());
-        optionD.setOnClickListener((View view) -> callBackFailure());
+        optionD.setOnClickListener((View view) -> evaluateResult(question.getOptionD()));
+    }
 
-        Button correctBtn = null;
-        switch (question.getCorrectAnswer()) {
-            case 1:
-                correctBtn = optionA;
-                break;
-            case 2:
-                correctBtn = optionB;
-                break;
-            case 3:
-                correctBtn = optionC;
-                break;
-            case 4:
-                correctBtn = optionD;
-                break;
+    private void evaluateResult(String pressedAnswer) {
+        if (pressedAnswer.equals(question.getCorrectAnswer())) {
+            callBackVictorious();
+        } else {
+            callBackFailure();
         }
-        correctBtn.setOnClickListener((View view) -> callBackVictorious());
     }
 }

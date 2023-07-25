@@ -37,7 +37,6 @@
         android:layout_height="75dp"
         android:layout_marginVertical="30dp"
         android:autoSizeTextType="uniform"
-        android:onClick="wrongAnswer"
         android:text="A"
         app:layout_constraintBottom_toTopOf="@id/optionC"
         app:layout_constraintEnd_toStartOf="@+id/optionB"
