@@ -4,9 +4,6 @@ package at.iver.bop_it.prompts;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
-
-import java.io.IOException;
-
 import at.iver.bop_it.R;
 
 public class ShakePrompt extends AbstractPrompt {
@@ -30,11 +27,7 @@ public class ShakePrompt extends AbstractPrompt {
         float gForce = (float) Math.sqrt(gX * gX + gY * gY + gZ * gZ);
 
         if (gForce > SHAKE_THRESHOLD_GRAVITY) {
-            try {
-                callBackVictorious();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            callBackVictorious();
         }
     }
 }

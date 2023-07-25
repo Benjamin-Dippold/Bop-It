@@ -2,16 +2,14 @@
 package at.iver.bop_it.network.client;
 
 import android.util.Log;
-
+import at.iver.bop_it.UIUpdateListener;
+import at.iver.bop_it.network.Communication;
+import at.iver.bop_it.network.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-
-import at.iver.bop_it.UIUpdateListener;
-import at.iver.bop_it.network.Communication;
-import at.iver.bop_it.network.Message;
 
 public class ClientConnector extends Thread {
     private static final String TAG = "ClientConnector";

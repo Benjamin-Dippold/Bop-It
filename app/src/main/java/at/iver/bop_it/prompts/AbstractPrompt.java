@@ -19,11 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
-
+import at.iver.bop_it.MainActivity;
 import java.io.IOException;
 import java.io.Serializable;
-
-import at.iver.bop_it.MainActivity;
 
 public abstract class AbstractPrompt extends Fragment implements SensorEventListener, Serializable {
 
@@ -84,13 +82,21 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         if (sensorManager != null) sensorManager.unregisterListener(this);
     }
 
-    protected void callBackVictorious() throws IOException {
+    protected void callBackVictorious() {
         long endTime = SystemClock.elapsedRealtime();
-        ((MainActivity) getActivity()).promptComplete(endTime - startTime);
+        try {
+            ((MainActivity) getActivity()).promptComplete(endTime - startTime);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void callBackFailure() {
-        ((MainActivity) getActivity()).promptComplete(Long.MAX_VALUE);
+        try {
+            ((MainActivity) getActivity()).promptComplete(Long.MAX_VALUE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

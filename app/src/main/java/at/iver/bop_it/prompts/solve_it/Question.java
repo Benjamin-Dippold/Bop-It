@@ -8,7 +8,6 @@ public class Question {
     private final String question, optionA, optionB, optionC, optionD;
     private final int correctAnswer;
 
-    // TODO: fill with more Questions
     private static final List<Question> allQuestions =
             List.of(
                     new Question("5 + 3 =", "7", "8", "9", "10", 2),

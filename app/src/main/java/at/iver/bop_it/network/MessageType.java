@@ -8,5 +8,4 @@ public enum MessageType {
     RESULTS,
     // Server -> Client
     FINISH
-
 }

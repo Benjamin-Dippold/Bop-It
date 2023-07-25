@@ -2,14 +2,12 @@
 package at.iver.bop_it.network.server;
 
 import android.util.Log;
-
+import at.iver.bop_it.network.Communication;
+import at.iver.bop_it.network.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
-import at.iver.bop_it.network.Message;
-import at.iver.bop_it.network.Communication;
 
 public class ClientHandler {
 

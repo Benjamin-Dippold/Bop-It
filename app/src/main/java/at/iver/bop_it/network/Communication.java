@@ -2,15 +2,11 @@
 package at.iver.bop_it.network;
 
 import android.util.Log;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import at.iver.bop_it.prompts.AbstractPrompt;
-
 
 public class Communication {
 
@@ -67,7 +63,6 @@ public class Communication {
         message.setData(DataKey.ID, id);
         return message;
     }
-
 
     public static Message generatePromptMessage(int prompt) {
         Message message = new Message(MessageType.PROMPT);

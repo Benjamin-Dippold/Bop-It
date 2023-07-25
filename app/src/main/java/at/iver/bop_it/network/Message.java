@@ -5,9 +5,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import at.iver.bop_it.prompts.AbstractPrompt;
-
-
 public class Message implements Serializable {
     private MessageType type;
     private Map<DataKey, Object> data;
@@ -53,5 +50,4 @@ public class Message implements Serializable {
                 return false;
         }
     }
-
 }

@@ -2,9 +2,6 @@
 package at.iver.bop_it.prompts;
 
 import android.view.ScaleGestureDetector;
-
-import java.io.IOException;
-
 import at.iver.bop_it.R;
 
 public class ZoomPrompt extends AbstractPrompt {
@@ -22,11 +19,7 @@ public class ZoomPrompt extends AbstractPrompt {
             startingSpan = currentSpan;
         } else {
             if (currentSpan > startingSpan + SPAN_THRESHOLD) {
-                try {
-                    callBackVictorious();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                callBackVictorious();
             }
         }
     }

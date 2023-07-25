@@ -1,6 +1,5 @@
+/* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it.network;
-
-import at.iver.bop_it.prompts.DoubleTapPrompt;
 
 public enum PromptType {
     DOUBLE_TAP_PROMPT,

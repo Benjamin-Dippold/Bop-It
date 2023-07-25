@@ -20,9 +20,10 @@ public class WaitingFragment extends Fragment {
             @NonNull LayoutInflater inflater,
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-        @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.waiting_screen, null, false);
-        ((TextView) v.findViewById(R.id.myScore)).setText(results[0]+ "ms");
-        ((TextView) v.findViewById(R.id.enemyScore)).setText(results[1]+ "ms");
+        @SuppressLint("InflateParams")
+        View v = inflater.inflate(R.layout.waiting_screen, null, false);
+        ((TextView) v.findViewById(R.id.myScore)).setText(results[0] + "ms");
+        ((TextView) v.findViewById(R.id.enemyScore)).setText(results[1] + "ms");
         return v;
     }
 

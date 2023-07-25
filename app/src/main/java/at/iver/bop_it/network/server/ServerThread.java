@@ -2,6 +2,7 @@
 package at.iver.bop_it.network.server;
 
 import static at.iver.bop_it.network.Communication.generateGiveIdMessage;
+import static at.iver.bop_it.network.Communication.generatePromptMessage;
 import static at.iver.bop_it.network.Communication.generateResultsMessage;
 
 import android.annotation.SuppressLint;
@@ -12,7 +13,8 @@ import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
-
+import at.iver.bop_it.MainActivity;
+import at.iver.bop_it.network.Message;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -21,15 +23,12 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import at.iver.bop_it.MainActivity;
-
-import at.iver.bop_it.network.Message;
-
+import java.util.Random;
 
 public class ServerThread extends Thread {
+    private static final int MIN_TIME_BETWEEN_PROMPTS = 2000;
+    private static final int MAX_TIME_BETWEEN_PROMPTS = 5000;
     private static final String TAG = "ServerThread";
     private final Context context;
     private final int port;
@@ -91,9 +90,7 @@ public class ServerThread extends Thread {
         return client;
     }
 
-    private void createGame() {
-
-    }
+    private void createGame() {}
 
     public synchronized void addFinishedPlayer(int playerId, long finishTime) {
         finishers.put(playerId, finishTime);
@@ -111,7 +108,7 @@ public class ServerThread extends Thread {
         // processing finishers
         long[] results = new long[connections.size()];
 
-        for(int i = 0; i < connections.size(); i++) {
+        for (int i = 0; i < connections.size(); i++) {
             if (finishers.containsKey(i)) {
                 results[i] = finishers.get(i);
             } else {
@@ -121,7 +118,31 @@ public class ServerThread extends Thread {
 
         sendMessageToAllClients(generateResultsMessage(results));
 
-        finishers.clear();  // clear the list after processing
+        finishers.clear(); // clear the list after processing
+
+        waitAndGiveNewPrompt();
+    }
+
+    public void waitAndGiveNewPrompt() {
+        new java.util.Timer()
+                .schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                int randomIndex =
+                                        new Random().nextInt(MainActivity.possiblePrompts.length);
+                                try {
+                                    sendMessageToAllClients(generatePromptMessage(randomIndex));
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        },
+                        getRandomNumber(MIN_TIME_BETWEEN_PROMPTS, MAX_TIME_BETWEEN_PROMPTS));
+    }
+
+    private int getRandomNumber(int minValue, int maxValue) {
+        return minValue + new Random().nextInt(maxValue - minValue + 1);
     }
 
     public int getTurnNumber(ClientHandler client) {
@@ -203,15 +224,11 @@ public class ServerThread extends Thread {
         return instance;
     }
 
-
     private int numOfRematchRequests;
 
-    public void sendRematchToAll() throws IOException {
+    public void sendRematchToAll() throws IOException {}
 
-    }
-
-    public void sendNameChangeToAll(String data, int data1) {
-    }
+    public void sendNameChangeToAll(String data, int data1) {}
 
     public boolean isPlayerFinished(int playerId) {
         return finishers.containsKey(playerId);
