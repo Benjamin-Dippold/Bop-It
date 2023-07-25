@@ -5,6 +5,7 @@ public enum MessageType {
     // Client -> Server
     GIVE_ID,
     PROMPT,
+    PROMPT_WITH_EXTRA,
     RESULTS,
     // Server -> Client
     FINISH

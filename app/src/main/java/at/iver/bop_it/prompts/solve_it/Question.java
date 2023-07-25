@@ -111,9 +111,8 @@ public class Question {
                     new Question("12 - 7 =", "3", "4", "5", "6", 3),
                     new Question("7 * 4 =", "24", "25", "28", "30", 3));
 
-    public static Question getRandomQuestion() {
-        int randomId = new Random().nextInt(allQuestions.size());
-        return allQuestions.get(randomId);
+    public static int getRandomQuestionId() {
+        return new Random().nextInt(allQuestions.size());
     }
 
     public static Question getQuestionFromId(int id) {

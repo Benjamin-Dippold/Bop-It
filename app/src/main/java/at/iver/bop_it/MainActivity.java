@@ -12,18 +12,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import at.iver.bop_it.network.DataKey;
 import at.iver.bop_it.network.Message;
-import at.iver.bop_it.network.MessageType;
 import at.iver.bop_it.network.client.ClientConnector;
 import at.iver.bop_it.network.server.ServerThread;
 import at.iver.bop_it.prompts.*;
 import at.iver.bop_it.prompts.solve_it.SolvePrompt;
+
 import java.io.IOException;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements UIUpdateListener {
 
@@ -39,16 +43,16 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     private final Context context = this;
 
     public static Class<? extends AbstractPrompt>[] possiblePrompts =
-            new Class[] {
-                FlingPrompt.class,
-                TapPrompt.class,
-                DoubleTapPrompt.class,
-                HoldPrompt.class,
-                ShakePrompt.class,
-                TurnPrompt.class,
-                PinchPrompt.class,
-                ZoomPrompt.class,
-                SolvePrompt.class
+            new Class[]{
+                    FlingPrompt.class,
+                    TapPrompt.class,
+                    DoubleTapPrompt.class,
+                    HoldPrompt.class,
+                    ShakePrompt.class,
+                    TurnPrompt.class,
+                    PinchPrompt.class,
+                    ZoomPrompt.class,
+                    SolvePrompt.class
             };
 
     @Override
@@ -128,12 +132,19 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         swapFragmentToWaiting(adjustedResults);
     }
 
-    public void swapFragmentTo(int prompt) {
+    public void swapFragmentTo(int prompt, int extra) {
         try {
+            Fragment newPrompt = possiblePrompts[prompt].newInstance();
+            if (extra != -1) {
+                Bundle args = new Bundle();
+                args.putInt("extra", extra);
+                newPrompt.setArguments(args);
+            }
+
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(
-                    fragmentContainerView.getId(), possiblePrompts[prompt].newInstance());
+            fragmentTransaction.replace(fragmentContainerView.getId(), newPrompt);
+
             fragmentTransaction.commit();
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
@@ -190,16 +201,23 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     public void updateUI(Message message) {
         runOnUiThread(
                 () -> {
-                    if (message.getType() == MessageType.PROMPT) {
-                        swapFragmentTo((int) message.getData(DataKey.TYPE));
-                    }
-                    if (message.getType() == MessageType.GIVE_ID) {
-                        playerId = (int) message.getData(DataKey.ID);
-                        Log.d(TAG, "Player ID: " + playerId);
-                    }
-                    if (message.getType() == MessageType.RESULTS) {
-                        long[] takenTime = (long[]) message.getData(DataKey.RESULTS);
-                        showResult(takenTime);
+                    switch (message.getType()) {
+                        case PROMPT:
+                            swapFragmentTo((int) message.getData(DataKey.TYPE), -1);
+                            break;
+                        case PROMPT_WITH_EXTRA:
+                            swapFragmentTo(
+                                    (int) message.getData(DataKey.TYPE),
+                                    (int) message.getData(DataKey.EXTRA));
+                            break;
+                        case GIVE_ID:
+                            playerId = (int) message.getData(DataKey.ID);
+                            Log.d(TAG, "Player ID: " + playerId);
+                            break;
+                        case RESULTS:
+                            long[] takenTime = (long[]) message.getData(DataKey.RESULTS);
+                            showResult(takenTime);
+                            break;
                     }
                 });
     }

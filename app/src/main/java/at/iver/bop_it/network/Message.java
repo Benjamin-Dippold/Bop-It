@@ -41,6 +41,7 @@ public class Message implements Serializable {
         switch (key) {
             case TYPE:
             case ID:
+            case EXTRA:
                 return value instanceof Integer;
             case TIME:
                 return value instanceof Long;

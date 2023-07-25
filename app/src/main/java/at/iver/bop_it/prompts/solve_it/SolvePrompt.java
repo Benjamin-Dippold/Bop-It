@@ -12,14 +12,16 @@ public class SolvePrompt extends AbstractPrompt {
 
     public SolvePrompt() {
         super(R.layout.solve_prompt);
-        // TODO: Figure out how to get this from Server
-        question = Question.getRandomQuestion();
     }
 
     @Override
     public void onStart() {
         super.onStart();
         View v = getView();
+
+        int questionId = getArguments().getInt("extra");
+        question = Question.getQuestionFromId(questionId);
+
         ((TextView) v.findViewById(R.id.question)).setText(question.getQuestion());
 
         Button optionA = v.findViewById(R.id.optionA);

@@ -70,6 +70,13 @@ public class Communication {
         return message;
     }
 
+    public static Message generatePromptWithExtraMessage(int prompt, int extra) {
+        Message message = new Message(MessageType.PROMPT_WITH_EXTRA);
+        message.setData(DataKey.TYPE, prompt);
+        message.setData(DataKey.EXTRA, extra);
+        return message;
+    }
+
     public static Message generateFinishMessage(int id, long time) {
         Message message = new Message(MessageType.FINISH);
         message.setData(DataKey.ID, id);

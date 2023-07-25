@@ -4,6 +4,7 @@ package at.iver.bop_it.network;
 public enum DataKey {
     ID,
     TYPE,
+    EXTRA,
     TIME,
     RESULTS
 }

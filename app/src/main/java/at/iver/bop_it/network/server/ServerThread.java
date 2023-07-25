@@ -3,6 +3,7 @@ package at.iver.bop_it.network.server;
 
 import static at.iver.bop_it.network.Communication.generateGiveIdMessage;
 import static at.iver.bop_it.network.Communication.generatePromptMessage;
+import static at.iver.bop_it.network.Communication.generatePromptWithExtraMessage;
 import static at.iver.bop_it.network.Communication.generateResultsMessage;
 
 import android.annotation.SuppressLint;
@@ -15,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import at.iver.bop_it.MainActivity;
 import at.iver.bop_it.network.Message;
+import at.iver.bop_it.prompts.solve_it.Question;
+import at.iver.bop_it.prompts.solve_it.SolvePrompt;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -129,10 +132,16 @@ public class ServerThread extends Thread {
                         new java.util.TimerTask() {
                             @Override
                             public void run() {
-                                int randomIndex =
-                                        new Random().nextInt(MainActivity.possiblePrompts.length);
                                 try {
-                                    sendMessageToAllClients(generatePromptMessage(randomIndex));
+                                    int randomIndex = new Random().nextInt(MainActivity.possiblePrompts.length);
+
+                                    if (MainActivity.possiblePrompts[randomIndex] == SolvePrompt.class) {
+                                        int extra = Question.getRandomQuestionId();
+                                        sendMessageToAllClients(
+                                                generatePromptWithExtraMessage(randomIndex, extra));
+                                    } else {
+                                        sendMessageToAllClients(generatePromptMessage(randomIndex));
+                                    }
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
