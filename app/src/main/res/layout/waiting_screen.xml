@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/textView"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/myScoreLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -15,23 +15,53 @@
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
         android:gravity="center"
-        android:text="Waiting for Prompt!" />
+        android:text="Waiting for Prompt!"
+        app:layout_constraintVertical_weight="2" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/myScoreLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
         android:gravity="center"
         android:maxLines="2"
-        android:text="Previous Score: "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/txtScore"
+        android:text="my Score: "
+        app:layout_constraintBottom_toTopOf= "@id/enemyScoreLabel"
+        app:layout_constraintEnd_toStartOf="@+id/myScore"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_weight="1"/>
 
     <TextView
-        android:id="@+id/txtScore"
+        android:id="@+id/enemyScoreLabel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="enemy Score: "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/enemyScore"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myScoreLabel"
+        app:layout_constraintVertical_weight="1"/>
+
+    <TextView
+        android:id="@+id/myScore"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="XXXXms "
+        app:layout_constraintBottom_toTopOf="@+id/enemyScore"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/myScoreLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_weight="1"/>
+
+    <TextView
+        android:id="@+id/enemyScore"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
@@ -40,6 +70,7 @@
         android:text="XXXXms "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/enemyScoreLabel"
+        app:layout_constraintTop_toBottomOf="@+id/myScore"
+        app:layout_constraintVertical_weight="1"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
