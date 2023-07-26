@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="Solve it!"
+
+        app:layout_constraintBottom_toTopOf="@+id/question"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeMaxTextSize="75sp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="QUESTION HERE"
+        app:layout_constraintBottom_toTopOf="@id/optionA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/optionA"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginVertical="30dp"
+        android:autoSizeTextType="uniform"
+        android:text="A"
+        app:layout_constraintBottom_toTopOf="@id/optionC"
+        app:layout_constraintEnd_toStartOf="@+id/optionB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question" />
+
+    <Button
+        android:id="@+id/optionB"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginVertical="30dp"
+        android:autoSizeTextType="uniform"
+        android:text="B"
+        app:layout_constraintBottom_toTopOf="@id/optionD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/optionA"
+        app:layout_constraintTop_toBottomOf="@id/question" />
+
+    <Button
+        android:id="@+id/optionC"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginVertical="30dp"
+        android:autoSizeTextType="uniform"
+        android:text="C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/optionD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/optionA" />
+
+    <Button
+        android:id="@+id/optionD"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_marginVertical="30dp"
+        android:autoSizeTextType="uniform"
+        android:text="D"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/optionC"
+        app:layout_constraintTop_toBottomOf="@id/optionB" />
+</androidx.constraintlayout.widget.ConstraintLayout>

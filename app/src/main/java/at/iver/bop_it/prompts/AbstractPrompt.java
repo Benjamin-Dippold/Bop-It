@@ -20,8 +20,10 @@ import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
 import at.iver.bop_it.MainActivity;
+import java.io.IOException;
+import java.io.Serializable;
 
-public abstract class AbstractPrompt extends Fragment implements SensorEventListener {
+public abstract class AbstractPrompt extends Fragment implements SensorEventListener, Serializable {
 
     private static final String TAG = "AbstractPrompt";
     private boolean isVictorious = false;
@@ -86,7 +88,19 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         if(isVictorious) return;
         isVictorious = true;
         long endTime = SystemClock.elapsedRealtime();
-        ((MainActivity) getActivity()).promptComplete(endTime - startTime);
+        try {
+            ((MainActivity) getActivity()).promptComplete(endTime - startTime);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void callBackFailure() {
+        try {
+            ((MainActivity) getActivity()).promptComplete(Long.MAX_VALUE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     protected abstract void playSound();
@@ -105,7 +119,7 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         Log.v(TAG, "onFling");
     }
 
-    protected void onDoubleTap() {
+    protected void onDoubleTap() throws IOException {
         Log.v(TAG, "onDoubleTap");
     }
 
@@ -139,7 +153,11 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
 
         @Override
         public boolean onDoubleTap(@NonNull MotionEvent e) {
-            AbstractPrompt.this.onDoubleTap();
+            try {
+                AbstractPrompt.this.onDoubleTap();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             return true;
         }
 

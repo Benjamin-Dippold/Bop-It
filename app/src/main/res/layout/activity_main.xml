@@ -14,20 +14,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_prompt"
-        tools:layout="@layout/waiting_screen" />
-
-    <Button
-        android:id="@+id/btn_prompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="giveRandomPrompt"
-        android:text="Give Prompt"
-        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView2"
-        app:layout_constraintEnd_toStartOf="@+id/btn_voiceline"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread" />
+        tools:layout="@layout/waiting_screen" />
 
     <Button
         android:id="@+id/btn_voiceline"
@@ -36,7 +24,7 @@
         android:onClick="changeVoice"
         android:text="change voice"
         app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView2"
-        app:layout_constraintStart_toEndOf="@id/btn_prompt"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
