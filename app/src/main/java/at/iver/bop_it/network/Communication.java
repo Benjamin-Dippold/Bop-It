@@ -64,16 +64,18 @@ public class Communication {
         return message;
     }
 
-    public static Message generatePromptMessage(int prompt) {
+    public static Message generatePromptMessage(int prompt,boolean isSimon) {
         Message message = new Message(MessageType.PROMPT);
         message.setData(DataKey.TYPE, prompt);
+        message.setData(DataKey.ISSIMON, isSimon);
         return message;
     }
 
-    public static Message generatePromptWithExtraMessage(int prompt, int extra) {
+    public static Message generatePromptWithExtraMessage(int prompt, int extra, boolean isSimon) {
         Message message = new Message(MessageType.PROMPT_WITH_EXTRA);
         message.setData(DataKey.TYPE, prompt);
         message.setData(DataKey.EXTRA, extra);
+        message.setData(DataKey.ISSIMON, isSimon);
         return message;
     }
 

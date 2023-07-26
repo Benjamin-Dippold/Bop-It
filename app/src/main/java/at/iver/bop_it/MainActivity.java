@@ -145,14 +145,15 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         swapFragmentToWaiting(adjustedResults, adjustedScores);
     }
 
-    public void swapFragmentTo(int prompt, int extra) {
+    public void swapFragmentTo(int prompt, int extra, boolean isSimon) {
         try {
             Fragment newPrompt = possiblePrompts[prompt].newInstance();
+            Bundle args = new Bundle();
+            args.putBoolean("isSimon", isSimon);
             if (extra != -1) {
-                Bundle args = new Bundle();
                 args.putInt("extra", extra);
-                newPrompt.setArguments(args);
             }
+            newPrompt.setArguments(args);
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -218,12 +219,16 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                 () -> {
                     switch (message.getType()) {
                         case PROMPT:
-                            swapFragmentTo((int) message.getData(DataKey.TYPE), -1);
+                            swapFragmentTo(
+                                    (int) message.getData(DataKey.TYPE),
+                                    -1,
+                                    (Boolean) message.getData(DataKey.ISSIMON));
                             break;
                         case PROMPT_WITH_EXTRA:
                             swapFragmentTo(
                                     (int) message.getData(DataKey.TYPE),
-                                    (int) message.getData(DataKey.EXTRA));
+                                    (int) message.getData(DataKey.EXTRA),
+                                    (Boolean) message.getData(DataKey.ISSIMON));
                             break;
                         case GIVE_ID:
                             playerId = (int) message.getData(DataKey.ID);

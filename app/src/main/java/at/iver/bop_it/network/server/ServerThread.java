@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import at.iver.bop_it.MainActivity;
 import at.iver.bop_it.network.Message;
+import at.iver.bop_it.prompts.AbstractPrompt;
 import at.iver.bop_it.prompts.solve_it.Question;
 import at.iver.bop_it.prompts.solve_it.SolvePrompt;
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class ServerThread extends Thread {
     private static final int MIN_TIME_BETWEEN_PROMPTS = 2000;
     private static final int MAX_TIME_BETWEEN_PROMPTS = 5000;
     private static final int POINTS_NEEDED_TO_WIN = 10;
+    private static final boolean simonModeActive = true;
     private static final String TAG = "ServerThread";
     private final Context context;
     private final int port;
@@ -48,6 +50,7 @@ public class ServerThread extends Thread {
     private boolean waitingForFinishers = false;
     private final Map<Integer, Long> finishers = new HashMap<>();
     private final int[] scores = new int[2];
+    private boolean isSimon;
 
     public ServerThread(Context context, int port) {
         this.context = context;
@@ -118,8 +121,16 @@ public class ServerThread extends Thread {
         for (int i = 0; i < connections.size(); i++) {
             if (finishers.containsKey(i)) {
                 results[i] = finishers.get(i);
+                // if the results is higher then the maxTimePerPrompt, then it must have been triggered by
+                // the max time PerPrompt. In this case both users followed the prompt successfully
+                // and minute differences between results (10-20ms) should not give any player a point.
+                if (results[i] > AbstractPrompt.maxTimePerPrompt)
+                    results[i] = AbstractPrompt.maxTimePerPrompt;
             } else {
-                results[i] = -1;
+                if (isSimon)
+                    results[i] = -1; //DNF
+                else
+                    results[i] = AbstractPrompt.maxTimePerPrompt;
             }
         }
 
@@ -180,14 +191,20 @@ public class ServerThread extends Thread {
                             @Override
                             public void run() {
                                 try {
+                                    if (simonModeActive) {
+                                        isSimon = new Random().nextBoolean();
+                                    } else {
+                                        isSimon = true;
+                                    }
+
                                     int randomIndex = new Random().nextInt(MainActivity.possiblePrompts.length);
 
                                     if (MainActivity.possiblePrompts[randomIndex] == SolvePrompt.class) {
                                         int extra = Question.getRandomQuestionId();
                                         sendMessageToAllClients(
-                                                generatePromptWithExtraMessage(randomIndex, extra));
+                                                generatePromptWithExtraMessage(randomIndex, extra, isSimon));
                                     } else {
-                                        sendMessageToAllClients(generatePromptMessage(randomIndex));
+                                        sendMessageToAllClients(generatePromptMessage(randomIndex, isSimon));
                                     }
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);

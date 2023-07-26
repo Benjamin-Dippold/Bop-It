@@ -15,6 +15,8 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
@@ -28,13 +30,14 @@ import java.util.TimerTask;
 public abstract class AbstractPrompt extends Fragment implements SensorEventListener, Serializable {
 
     private static final String TAG = "AbstractPrompt";
-    private static final long maxTimePerPrompt = 10000L;
+    public static final long maxTimePerPrompt = 10000L;
     private boolean isVictorious = false;
 
     protected long startTime;
     protected int layout;
     protected int sensorId;
     private SensorManager sensorManager;
+    private boolean isSimon;
 
     public AbstractPrompt(int layout) {
         this.layout = layout;
@@ -85,12 +88,20 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
                 Log.e(TAG, "Error getting sensor with id: " + sensorId);
             }
         }
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         startTime = SystemClock.elapsedRealtime();
         playSound();
 
         new Timer().schedule(failAfterMaxTime, maxTimePerPrompt);
 
-        return view;
+        isSimon = getArguments().getBoolean("isSimon");
+        if(isSimon)
+            Toast.makeText(getContext(), "SIMON ALERT", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -101,6 +112,11 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
     }
 
     protected void callBackVictorious() {
+        if(!isSimon){
+            isSimon = true;
+            callBackFailure();
+            return;
+        }
         if(isVictorious) return;
         isVictorious = true;
         long endTime = SystemClock.elapsedRealtime();
@@ -112,6 +128,11 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
     }
 
     protected void callBackFailure() {
+        if(!isSimon){
+            isSimon = true;
+            callBackVictorious();
+            return;
+        }
         try {
             ((MainActivity) getActivity()).promptComplete(-2);
         } catch (IOException e) {

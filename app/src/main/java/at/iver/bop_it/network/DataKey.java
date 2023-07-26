@@ -7,5 +7,6 @@ public enum DataKey {
     EXTRA,
     TIME,
     RESULTS,
-    SCORES
+    SCORES,
+    ISSIMON
 }
