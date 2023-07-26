@@ -12,26 +12,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import at.iver.bop_it.network.DataKey;
 import at.iver.bop_it.network.Message;
 import at.iver.bop_it.network.client.ClientConnector;
 import at.iver.bop_it.network.server.ServerThread;
 import at.iver.bop_it.prompts.*;
+import at.iver.bop_it.prompts.solve_it.SolvePrompt;
 import at.iver.bop_it.sound.SoundProvider;
 import at.iver.bop_it.sound.VoiceLine;
-
-import java.util.Random;
-import at.iver.bop_it.prompts.solve_it.SolvePrompt;
-
 import java.io.IOException;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements UIUpdateListener {
 
@@ -39,13 +33,6 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     private SoundProvider sp = SoundProvider.getInstance();
     VoiceLine[] voices = VoiceLine.values();
     private int currentVoice = 0;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        fragmentContainerView = findViewById(R.id.fragmentContainerView2);
-    }
     private ServerThread server;
     private static final int connectionPort = 1337;
     private boolean isHost = false;
@@ -57,18 +44,18 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     private final Context context = this;
 
     public static Class<? extends AbstractPrompt>[] possiblePrompts =
-            new Class[]{
-                    FlingPrompt.class,
-                    TapPrompt.class,
-                    DoubleTapPrompt.class,
-                    HoldPrompt.class,
-                    ShakePrompt.class,
-                    TurnPrompt.class,
-                    PinchPrompt.class,
-                    ZoomPrompt.class,
-                    VolumeUpPrompt.class,
-                    VolumeDownPrompt.class,
-                    SolvePrompt.class
+            new Class[] {
+                FlingPrompt.class,
+                TapPrompt.class,
+                DoubleTapPrompt.class,
+                HoldPrompt.class,
+                ShakePrompt.class,
+                TurnPrompt.class,
+                PinchPrompt.class,
+                ZoomPrompt.class,
+                VolumeUpPrompt.class,
+                VolumeDownPrompt.class,
+                SolvePrompt.class
             };
 
     @Override
@@ -105,12 +92,6 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         sp.setVoiceLine(voices[currentVoice]);
     }
 
-
-    public void promptComplete(long takenTime) {
-        //  Toast.makeText(this, "You did it in " + takenTime + "ms!", Toast.LENGTH_SHORT).show();
-        swapFragmentToWaiting(takenTime);
-        // TODO: Tell server how long it took and stuff.
-    }
     public void hostGame(View view) {
         setupName();
         setContentView(R.layout.host);

@@ -22,8 +22,39 @@ public class WaitingFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams")
         View v = inflater.inflate(R.layout.waiting_screen, null, false);
-        ((TextView) v.findViewById(R.id.myScore)).setText(results[0] + "ms");
-        ((TextView) v.findViewById(R.id.enemyScore)).setText(results[1] + "ms");
+
+        String playerResult;
+        switch ((int) results[0]) {
+            case 0:
+                playerResult = "Waiting for results!";
+                break;
+            case -1:
+                playerResult = "DNF";
+                break;
+            case -2:
+                playerResult = "Failure";
+                break;
+            default:
+                playerResult = results[0] + "ms";
+        }
+        ((TextView) v.findViewById(R.id.myScore)).setText(playerResult);
+
+        String otherPlayerResult;
+        switch ((int) results[1]) {
+            case 0:
+                otherPlayerResult = "Waiting for results!";
+                break;
+            case -1:
+                otherPlayerResult = "DNF";
+                break;
+            case -2:
+                otherPlayerResult = "Failure";
+                break;
+            default:
+                otherPlayerResult = results[1] + "ms";
+        }
+        ((TextView) v.findViewById(R.id.enemyScore)).setText(otherPlayerResult);
+
         return v;
     }
 

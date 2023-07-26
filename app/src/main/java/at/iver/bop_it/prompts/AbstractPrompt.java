@@ -22,10 +22,13 @@ import androidx.fragment.app.Fragment;
 import at.iver.bop_it.MainActivity;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class AbstractPrompt extends Fragment implements SensorEventListener, Serializable {
 
     private static final String TAG = "AbstractPrompt";
+    private static final long maxTimePerPrompt = 10000L;
     private boolean isVictorious = false;
 
     protected long startTime;
@@ -42,6 +45,15 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         this.layout = layout;
         this.sensorId = sensorId;
     }
+
+    private final TimerTask failAfterMaxTime =
+            new TimerTask() {
+                @Override
+                public void run() {
+                    Log.e(TAG, "TIMES UP!");
+                    callBackFailure();
+                }
+            };
 
     @Nullable @Override
     public View onCreateView(
@@ -75,12 +87,16 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         }
         startTime = SystemClock.elapsedRealtime();
         playSound();
+
+        new Timer().schedule(failAfterMaxTime, maxTimePerPrompt);
+
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        failAfterMaxTime.cancel();
         if (sensorManager != null) sensorManager.unregisterListener(this);
     }
 
@@ -97,7 +113,7 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
 
     protected void callBackFailure() {
         try {
-            ((MainActivity) getActivity()).promptComplete(Long.MAX_VALUE);
+            ((MainActivity) getActivity()).promptComplete(-2);
         } catch (IOException e) {
             e.printStackTrace();
         }
