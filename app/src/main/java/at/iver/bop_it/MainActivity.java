@@ -2,6 +2,7 @@
 package at.iver.bop_it;
 
 import static at.iver.bop_it.network.Communication.generateFinishMessage;
+import static at.iver.bop_it.network.Communication.generateNameChangeMessage;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -108,7 +109,10 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
 
     public void setupName() {
         TextView nameBox = findViewById(R.id.name_chooser);
-        playerName = nameBox.getText().toString();
+        String enteredName = nameBox.getText().toString();
+        if (!enteredName.isEmpty()) {
+            playerName = enteredName;
+        }
     }
 
     public void startServer(View view) {
@@ -130,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         connection.sendMessage(generateFinishMessage(playerId, takenTime));
         long[] takenTimeArray = new long[2];
         takenTimeArray[0] = takenTime;
-        swapFragmentToWaiting(takenTimeArray, new int[] {-1, -1});
+        swapFragmentToWaiting(takenTimeArray, new int[]{-1, -1});
     }
 
     public void showResult(long[] takenTime, int[] scores) {
@@ -174,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(
-                    fragmentContainerView.getId(), waitingFragment, "WaitingFragment");
+                    fragmentContainerView.getId(), waitingFragment, "waitingFragment");
             fragmentTransaction.commit();
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
@@ -233,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                         case GIVE_ID:
                             playerId = (int) message.getData(DataKey.ID);
                             Log.d(TAG, "Player ID: " + playerId);
+                            sendName(); //positioned here, to ensure a playerID has been given.
                             break;
                         case RESULTS:
                             long[] takenTime = (long[]) message.getData(DataKey.RESULTS);
@@ -243,6 +248,21 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                         case VICTORY:
                             int winner = (int) message.getData(DataKey.ID);
                             endGame(playerId == winner);
+                            break;
+                        case UPDATE_NAME:
+                            String name = (String) message.getData(DataKey.NAME);
+                            int id = (int) message.getData(DataKey.ID);
+                            Log.i(TAG, "GOTTEN NAME: " + name + " id: " + id);
+                            if (id == playerId) {
+                                WaitingFragment.playerName = name;
+                            } else {
+                                WaitingFragment.enemyName = name;
+                            }
+                            Fragment f = getSupportFragmentManager().findFragmentByTag("waitingFragment");
+                            if (f != null)
+                                ((WaitingFragment) f).updateTextViews();
+
+                            break;
                     }
                 });
     }
@@ -282,14 +302,24 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                 });
     }
 
+    public void sendName() {
+        if (!playerName.isEmpty()) {
+            try {
+                Log.i(TAG, "SENDING NAME: " + playerName + " id: " + playerId);
+                connection.sendMessage(generateNameChangeMessage(playerName, playerId));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public void startGame(View view) {
 
         setContentView(R.layout.activity_main);
         fragmentContainerView = findViewById(R.id.fragmentContainerView2);
 
+        swapFragmentToWaiting(new long[2], new int[2]);
         if (!isHost) {
-            swapFragmentToWaiting(new long[2], new int[2]);
-
             Log.i(TAG, "Starting game as client");
         } else {
             Log.i(TAG, "Starting game as host");

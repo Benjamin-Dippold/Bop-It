@@ -51,6 +51,8 @@ public class Message implements Serializable {
                 return value instanceof int[];
             case ISSIMON:
                 return value instanceof Boolean;
+            case NAME:
+                return value instanceof String;
             default:
                 return false;
         }

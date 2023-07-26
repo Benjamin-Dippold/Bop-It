@@ -2,6 +2,7 @@
 package at.iver.bop_it.network.server;
 
 import static at.iver.bop_it.network.Communication.generateGiveIdMessage;
+import static at.iver.bop_it.network.Communication.generateNameChangeMessage;
 import static at.iver.bop_it.network.Communication.generatePromptMessage;
 import static at.iver.bop_it.network.Communication.generatePromptWithExtraMessage;
 import static at.iver.bop_it.network.Communication.generateResultsMessage;
@@ -301,7 +302,9 @@ public class ServerThread extends Thread {
 
     public void sendRematchToAll() throws IOException {}
 
-    public void sendNameChangeToAll(String data, int data1) {}
+    public void sendNameChangeToAll(String name, int playerId) throws IOException {
+        sendMessageToAllClients(generateNameChangeMessage(name, playerId));
+    }
 
     public boolean isPlayerFinished(int playerId) {
         return finishers.containsKey(playerId);

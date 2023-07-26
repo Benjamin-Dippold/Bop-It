@@ -24,6 +24,9 @@ public class ServerMessageHandler implements IHandleMessage {
             case FINISH:
                 handleFinishMessage(message);
                 break;
+            case UPDATE_NAME:
+                handleName(message);
+                break;
         }
     }
 
@@ -57,7 +60,11 @@ public class ServerMessageHandler implements IHandleMessage {
         }
     }
 
-    private void handleName(Message message) throws IOException {}
+    private void handleName(Message message) throws IOException {
+        String name = (String) message.getData(DataKey.NAME);
+        int id = (int) message.getData(DataKey.ID);
+        serverThread.sendNameChangeToAll(name, id);
+    }
 
     private void handleRematch() throws IOException {
         serverThread.sendRematchToAll();

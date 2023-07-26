@@ -64,7 +64,7 @@ public class Communication {
         return message;
     }
 
-    public static Message generatePromptMessage(int prompt,boolean isSimon) {
+    public static Message generatePromptMessage(int prompt, boolean isSimon) {
         Message message = new Message(MessageType.PROMPT);
         message.setData(DataKey.TYPE, prompt);
         message.setData(DataKey.ISSIMON, isSimon);
@@ -96,6 +96,13 @@ public class Communication {
     public static Message generateVictoryMessage(int winner) {
         Message message = new Message(MessageType.VICTORY);
         message.setData(DataKey.ID, winner);
+        return message;
+    }
+
+    public static Message generateNameChangeMessage(String name, int playerId) {
+        Message message = new Message(MessageType.UPDATE_NAME);
+        message.setData(DataKey.ID, playerId);
+        message.setData(DataKey.NAME, name);
         return message;
     }
 }

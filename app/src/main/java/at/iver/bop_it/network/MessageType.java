@@ -9,5 +9,6 @@ public enum MessageType {
     RESULTS,
     // Server -> Client
     FINISH,
-    VICTORY
+    VICTORY,
+    UPDATE_NAME
 }

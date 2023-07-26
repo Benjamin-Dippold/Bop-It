@@ -83,6 +83,8 @@
         android:hint="Choose a name:"
         android:inputType="text"
         android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="#CCCCCC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

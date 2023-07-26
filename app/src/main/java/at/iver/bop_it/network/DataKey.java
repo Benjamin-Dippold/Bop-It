@@ -8,5 +8,6 @@ public enum DataKey {
     TIME,
     RESULTS,
     SCORES,
-    ISSIMON
+    ISSIMON,
+    NAME
 }

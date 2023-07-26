@@ -14,16 +14,25 @@ import androidx.fragment.app.Fragment;
 public class WaitingFragment extends Fragment {
     long[] results = new long[2];
     int[] scores = new int[2];
+    public static String playerName = "Player";
+    public static String enemyName = "Enemy";
+    private View v;
 
     @SuppressLint("SetTextI18n")
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater,
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-        @SuppressLint("InflateParams")
-        View v = inflater.inflate(R.layout.waiting_screen, null, false);
+        v = inflater.inflate(R.layout.waiting_screen, null, false);
 
+        updateTextViews();
+
+        return v;
+    }
+
+    public void updateTextViews() {
         String playerResult;
         switch ((int) results[0]) {
             case 0:
@@ -63,7 +72,9 @@ public class WaitingFragment extends Fragment {
         if (scores[1] != -1) ((TextView) v.findViewById(R.id.enemyScore)).setText(scores[1] + "");
         else ((TextView) v.findViewById(R.id.enemyScore)).setText("Waiting for results!");
 
-        return v;
+        ((TextView) v.findViewById(R.id.myTimeLabel)).setText(playerName);
+        ((TextView) v.findViewById(R.id.enemyTimeLabel)).setText(enemyName);
+
     }
 
     public void setResults(long[] results) {
