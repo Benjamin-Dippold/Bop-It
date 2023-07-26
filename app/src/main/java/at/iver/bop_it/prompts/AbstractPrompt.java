@@ -15,13 +15,12 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
 import at.iver.bop_it.MainActivity;
+import at.iver.bop_it.sound.SoundProvider;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Timer;
@@ -30,7 +29,7 @@ import java.util.TimerTask;
 public abstract class AbstractPrompt extends Fragment implements SensorEventListener, Serializable {
 
     private static final String TAG = "AbstractPrompt";
-    public static final long maxTimePerPrompt = 10000L;
+    public static final long maxTimePerPrompt = 5000L;
     private boolean isVictorious = false;
 
     protected long startTime;
@@ -39,14 +38,26 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
     private SensorManager sensorManager;
     private boolean isSimon;
 
+    protected int simonVoiceClip;
+    protected int otherVoiceClip;
+
     public AbstractPrompt(int layout) {
-        this.layout = layout;
-        this.sensorId = -1;
+        this(layout, -1);
     }
 
     public AbstractPrompt(int layout, int sensorId) {
+        this(layout, sensorId, -1, -1);
+    }
+
+    public AbstractPrompt(int layout, int simonVoiceClip, int otherVoiceClip) {
+        this(layout, -1, simonVoiceClip, otherVoiceClip);
+    }
+
+    public AbstractPrompt(int layout, int sensorId, int simonVoiceClip, int otherVoiceClip) {
         this.layout = layout;
         this.sensorId = sensorId;
+        this.simonVoiceClip = simonVoiceClip;
+        this.otherVoiceClip = otherVoiceClip;
     }
 
     private final TimerTask failAfterMaxTime =
@@ -95,13 +106,12 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
     public void onStart() {
         super.onStart();
         startTime = SystemClock.elapsedRealtime();
-        playSound();
 
         new Timer().schedule(failAfterMaxTime, maxTimePerPrompt);
 
         isSimon = getArguments().getBoolean("isSimon");
-        if(isSimon)
-            Toast.makeText(getContext(), "SIMON ALERT", Toast.LENGTH_SHORT).show();
+
+        playSound();
     }
 
     @Override
@@ -112,12 +122,12 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
     }
 
     protected void callBackVictorious() {
-        if(!isSimon){
+        if (!isSimon) {
             isSimon = true;
             callBackFailure();
             return;
         }
-        if(isVictorious) return;
+        if (isVictorious) return;
         isVictorious = true;
         long endTime = SystemClock.elapsedRealtime();
         try {
@@ -128,7 +138,7 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
     }
 
     protected void callBackFailure() {
-        if(!isSimon){
+        if (!isSimon) {
             isSimon = true;
             callBackVictorious();
             return;
@@ -140,7 +150,13 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         }
     }
 
-    protected abstract void playSound();
+    protected void playSound() {
+        if (isSimon) {
+            SoundProvider.getInstance().playVoiceLine(simonVoiceClip, getContext());
+        } else {
+            SoundProvider.getInstance().playVoiceLine(otherVoiceClip, getContext());
+        }
+    }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {}

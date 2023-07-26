@@ -24,16 +24,11 @@ import at.iver.bop_it.network.client.ClientConnector;
 import at.iver.bop_it.network.server.ServerThread;
 import at.iver.bop_it.prompts.*;
 import at.iver.bop_it.prompts.solve_it.SolvePrompt;
-import at.iver.bop_it.sound.SoundProvider;
-import at.iver.bop_it.sound.VoiceLine;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements UIUpdateListener {
 
     private FragmentContainerView fragmentContainerView;
-    private SoundProvider sp = SoundProvider.getInstance();
-    VoiceLine[] voices = VoiceLine.values();
-    private int currentVoice = 0;
     private ServerThread server;
     private static final int connectionPort = 1337;
     private boolean isHost = false;
@@ -88,11 +83,6 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         isHost = false;
     }
 
-    public void changeVoice(View view) {
-        currentVoice = (currentVoice + 1) % voices.length;
-        sp.setVoiceLine(voices[currentVoice]);
-    }
-
     public void hostGame(View view) {
         setupName();
         setContentView(R.layout.host);
@@ -134,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         connection.sendMessage(generateFinishMessage(playerId, takenTime));
         long[] takenTimeArray = new long[2];
         takenTimeArray[0] = takenTime;
-        swapFragmentToWaiting(takenTimeArray, new int[]{-1, -1});
+        swapFragmentToWaiting(takenTimeArray, new int[] {-1, -1});
     }
 
     public void showResult(long[] takenTime, int[] scores) {
@@ -237,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                         case GIVE_ID:
                             playerId = (int) message.getData(DataKey.ID);
                             Log.d(TAG, "Player ID: " + playerId);
-                            sendName(); //positioned here, to ensure a playerID has been given.
+                            sendName(); // positioned here, to ensure a playerID has been given.
                             break;
                         case RESULTS:
                             long[] takenTime = (long[]) message.getData(DataKey.RESULTS);

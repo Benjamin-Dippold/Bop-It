@@ -1,30 +1,20 @@
-
+/* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it.prompts;
 
-        import android.media.AudioManager;
-        import android.media.MediaPlayer;
-        import android.os.Bundle;
-        import android.view.KeyEvent;
-        import android.view.View;
-
-        import at.iver.bop_it.R;
-        import at.iver.bop_it.sound.SoundProvider;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import at.iver.bop_it.R;
 
 public class VolumeDownPrompt extends AbstractPrompt {
 
     public VolumeDownPrompt() {
-        super(R.layout.volumedown_prompt);
+        super(R.layout.volumedown_prompt, R.raw.do_volume_down, R.raw.volume_down_normal);
     }
 
-    @Override
-    protected void playSound() {
-        SoundProvider soundProvider = SoundProvider.getInstance();
-        soundProvider.playVolumeDown(getContext());
-    }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
         view.setFocusableInTouchMode(true);
         view.requestFocus();

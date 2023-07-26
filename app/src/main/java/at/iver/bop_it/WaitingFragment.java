@@ -19,8 +19,7 @@ public class WaitingFragment extends Fragment {
     private View v;
 
     @SuppressLint("SetTextI18n")
-    @Nullable
-    @Override
+    @Nullable @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater,
             @Nullable ViewGroup container,
@@ -74,7 +73,6 @@ public class WaitingFragment extends Fragment {
 
         ((TextView) v.findViewById(R.id.myTimeLabel)).setText(playerName);
         ((TextView) v.findViewById(R.id.enemyTimeLabel)).setText(enemyName);
-
     }
 
     public void setResults(long[] results) {

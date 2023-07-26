@@ -128,10 +128,8 @@ public class ServerThread extends Thread {
                 if (results[i] > AbstractPrompt.maxTimePerPrompt)
                     results[i] = AbstractPrompt.maxTimePerPrompt;
             } else {
-                if (isSimon)
-                    results[i] = -1; //DNF
-                else
-                    results[i] = AbstractPrompt.maxTimePerPrompt;
+                if (isSimon) results[i] = -1; // DNF
+                else results[i] = AbstractPrompt.maxTimePerPrompt;
             }
         }
 

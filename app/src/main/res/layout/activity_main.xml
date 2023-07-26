@@ -17,17 +17,4 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/waiting_screen" />
 
-    <Button
-        android:id="@+id/btn_voiceline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="changeVoice"
-        android:text="change voice"
-        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

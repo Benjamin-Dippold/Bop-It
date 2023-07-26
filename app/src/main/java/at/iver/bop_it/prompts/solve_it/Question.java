@@ -124,8 +124,7 @@ public class Question {
         return q;
     }
 
-    public Question(
-            String question, List<String> answers, String correctAnswer) {
+    public Question(String question, List<String> answers, String correctAnswer) {
         this.question = question;
         this.answers = answers;
         this.correctAnswer = correctAnswer;

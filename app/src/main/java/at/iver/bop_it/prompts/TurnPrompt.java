@@ -3,10 +3,7 @@ package at.iver.bop_it.prompts;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.media.MediaPlayer;
-
 import at.iver.bop_it.R;
-import at.iver.bop_it.sound.SoundProvider;
 
 public class TurnPrompt extends AbstractPrompt {
 
@@ -16,13 +13,8 @@ public class TurnPrompt extends AbstractPrompt {
     private boolean isInitialized = false;
     private boolean isSideways = false;
 
-    @Override
-    protected void playSound() {
-        SoundProvider soundProvider = SoundProvider.getInstance();
-        soundProvider.playTurn(getContext());
-    }
     public TurnPrompt() {
-        super(R.layout.turn_prompt, Sensor.TYPE_ACCELEROMETER);
+        super(R.layout.turn_prompt, Sensor.TYPE_ACCELEROMETER, R.raw.do_turn_it, R.raw.turn_normal);
     }
 
     @Override

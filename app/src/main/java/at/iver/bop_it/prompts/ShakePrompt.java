@@ -4,24 +4,20 @@ package at.iver.bop_it.prompts;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
-import android.media.MediaPlayer;
-
 import at.iver.bop_it.R;
-import at.iver.bop_it.sound.SoundProvider;
 
 public class ShakePrompt extends AbstractPrompt {
 
     private static final float SHAKE_THRESHOLD_GRAVITY = 2.7F;
 
     public ShakePrompt() {
-        super(R.layout.shake_promt, Sensor.TYPE_ACCELEROMETER);
+        super(
+                R.layout.shake_promt,
+                Sensor.TYPE_ACCELEROMETER,
+                R.raw.do_shake_it,
+                R.raw.shake_normal);
     }
 
-    @Override
-    protected void playSound() {
-        SoundProvider soundProvider = SoundProvider.getInstance();
-        soundProvider.playShake(getContext());
-    }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         float x = sensorEvent.values[0];
