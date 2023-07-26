@@ -48,4 +48,7 @@ public class SolvePrompt extends AbstractPrompt {
             callBackFailure();
         }
     }
+
+    @Override
+    protected void playSound() {}
 }

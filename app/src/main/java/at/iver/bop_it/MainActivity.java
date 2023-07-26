@@ -130,14 +130,19 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         connection.sendMessage(generateFinishMessage(playerId, takenTime));
         long[] takenTimeArray = new long[2];
         takenTimeArray[0] = takenTime;
-        swapFragmentToWaiting(takenTimeArray);
+        swapFragmentToWaiting(takenTimeArray, new int[] {-1, -1});
     }
 
-    public void showResult(long[] takenTime) {
+    public void showResult(long[] takenTime, int[] scores) {
         long[] adjustedResults = new long[2];
         adjustedResults[0] = takenTime[playerId];
         adjustedResults[1] = takenTime[1 - playerId];
-        swapFragmentToWaiting(adjustedResults);
+
+        int[] adjustedScores = new int[2];
+        adjustedScores[0] = scores[playerId];
+        adjustedScores[1] = scores[1 - playerId];
+
+        swapFragmentToWaiting(adjustedResults, adjustedScores);
     }
 
     public void swapFragmentTo(int prompt, int extra) {
@@ -151,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(fragmentContainerView.getId(), newPrompt);
+            fragmentTransaction.replace(fragmentContainerView.getId(), newPrompt, "currentPrompt");
 
             fragmentTransaction.commit();
         } catch (IllegalAccessException | InstantiationException e) {
@@ -159,14 +164,16 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         }
     }
 
-    public void swapFragmentToWaiting(long[] results) {
+    public void swapFragmentToWaiting(long[] results, int[] scores) {
         try {
             WaitingFragment waitingFragment = WaitingFragment.class.newInstance();
             waitingFragment.setResults(results);
+            waitingFragment.setScores(scores);
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(fragmentContainerView.getId(), waitingFragment);
+            fragmentTransaction.replace(
+                    fragmentContainerView.getId(), waitingFragment, "WaitingFragment");
             fragmentTransaction.commit();
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
@@ -224,10 +231,30 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                             break;
                         case RESULTS:
                             long[] takenTime = (long[]) message.getData(DataKey.RESULTS);
-                            showResult(takenTime);
+                            int[] scores = (int[]) message.getData(DataKey.SCORES);
+                            Log.d(TAG, "Score received: " + java.util.Arrays.toString(scores));
+                            showResult(takenTime, scores);
                             break;
+                        case VICTORY:
+                            int winner = (int) message.getData(DataKey.ID);
+                            endGame(playerId == winner);
                     }
                 });
+    }
+
+    private void endGame(boolean isVictorious) {
+        Fragment currentPrompt = getSupportFragmentManager().findFragmentByTag("currentPrompt");
+        if (currentPrompt != null)
+            currentPrompt.onDestroyView(); // make sure the DNF-Timer is no longer running
+        setContentView(R.layout.post_game);
+
+        if (isVictorious) {
+            ((TextView) findViewById(R.id.victory_message)).setText("You Won!");
+        } else {
+            ((TextView) findViewById(R.id.victory_message)).setText("You Lost!");
+        }
+
+        if (!isHost) findViewById(R.id.btn_play_again).setVisibility(View.INVISIBLE);
     }
 
     public void clientCallback(boolean success) {
@@ -256,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         fragmentContainerView = findViewById(R.id.fragmentContainerView2);
 
         if (!isHost) {
-            swapFragmentToWaiting(new long[2]);
+            swapFragmentToWaiting(new long[2], new int[2]);
 
             Log.i(TAG, "Starting game as client");
         } else {

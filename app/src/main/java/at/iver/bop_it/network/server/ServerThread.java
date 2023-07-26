@@ -5,6 +5,7 @@ import static at.iver.bop_it.network.Communication.generateGiveIdMessage;
 import static at.iver.bop_it.network.Communication.generatePromptMessage;
 import static at.iver.bop_it.network.Communication.generatePromptWithExtraMessage;
 import static at.iver.bop_it.network.Communication.generateResultsMessage;
+import static at.iver.bop_it.network.Communication.generateVictoryMessage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,6 +25,7 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +34,7 @@ import java.util.Random;
 public class ServerThread extends Thread {
     private static final int MIN_TIME_BETWEEN_PROMPTS = 2000;
     private static final int MAX_TIME_BETWEEN_PROMPTS = 5000;
+    private static final int POINTS_NEEDED_TO_WIN = 10;
     private static final String TAG = "ServerThread";
     private final Context context;
     private final int port;
@@ -44,6 +47,7 @@ public class ServerThread extends Thread {
     private final ArrayList<ClientHandler> connections = new ArrayList<>();
     private boolean waitingForFinishers = false;
     private final Map<Integer, Long> finishers = new HashMap<>();
+    private final int[] scores = new int[2];
 
     public ServerThread(Context context, int port) {
         this.context = context;
@@ -119,9 +123,52 @@ public class ServerThread extends Thread {
             }
         }
 
-        sendMessageToAllClients(generateResultsMessage(results));
+        calculateAndNotifyWinner(results);
 
         finishers.clear(); // clear the list after processing
+    }
+
+    private void calculateAndNotifyWinner(long[] results) throws IOException {
+        if ((results[0] < 0 && results[1] < 0) || (results[0] == results[1])) {
+            // no winners
+            Log.v(TAG, "Case1");
+        } else {
+            if (results[0] < 0) {
+                // player2 won
+                Log.v(TAG, "Case2");
+                scores[1]++;
+            } else if (results[1] < 0) {
+                // player1 won
+                Log.v(TAG, "Case3");
+                scores[0]++;
+            } else {
+                if (results[0] < results[1]) {
+                    // player 1 won
+                    Log.v(TAG, "Case4");
+                    scores[0]++;
+                } else {
+                    // player 2 won
+                    Log.v(TAG, "Case5");
+                    scores[1]++;
+                }
+            }
+        }
+        if (scores[0] >= POINTS_NEEDED_TO_WIN) {
+            sendMessageToAllClients(generateVictoryMessage(0));
+            return;
+        }
+
+        if (scores[1] >= POINTS_NEEDED_TO_WIN) {
+            sendMessageToAllClients(generateVictoryMessage(1));
+            return;
+        }
+
+        Log.v(TAG, "Sending score: " + java.util.Arrays.toString(scores));
+        sendMessageToAllClients(generateResultsMessage(results, Arrays.copyOf(scores, 2)));
+        // Arrays.copyOf is necessary, since otherwise the same array would be sent each time,
+        // ignoring changes made to the array (I blame the Serialisation taking a shortcut, since
+        // the
+        // Array address is the same)
 
         waitAndGiveNewPrompt();
     }

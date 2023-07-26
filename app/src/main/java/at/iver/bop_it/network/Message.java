@@ -47,6 +47,8 @@ public class Message implements Serializable {
                 return value instanceof Long;
             case RESULTS:
                 return value instanceof long[];
+            case SCORES:
+                return value instanceof int[];
             default:
                 return false;
         }

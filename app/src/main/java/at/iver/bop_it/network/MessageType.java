@@ -8,5 +8,6 @@ public enum MessageType {
     PROMPT_WITH_EXTRA,
     RESULTS,
     // Server -> Client
-    FINISH
+    FINISH,
+    VICTORY
 }

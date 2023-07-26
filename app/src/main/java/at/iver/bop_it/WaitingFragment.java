@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 public class WaitingFragment extends Fragment {
     long[] results = new long[2];
+    int[] scores = new int[2];
 
     @SuppressLint("SetTextI18n")
     @Nullable @Override
@@ -37,7 +38,7 @@ public class WaitingFragment extends Fragment {
             default:
                 playerResult = results[0] + "ms";
         }
-        ((TextView) v.findViewById(R.id.myScore)).setText(playerResult);
+        ((TextView) v.findViewById(R.id.myTime)).setText(playerResult);
 
         String otherPlayerResult;
         switch ((int) results[1]) {
@@ -53,7 +54,14 @@ public class WaitingFragment extends Fragment {
             default:
                 otherPlayerResult = results[1] + "ms";
         }
-        ((TextView) v.findViewById(R.id.enemyScore)).setText(otherPlayerResult);
+
+        ((TextView) v.findViewById(R.id.enemyTime)).setText(otherPlayerResult);
+
+        if (scores[0] != -1) ((TextView) v.findViewById(R.id.myScore)).setText(scores[0] + "");
+        else ((TextView) v.findViewById(R.id.myScore)).setText("Waiting for results!");
+
+        if (scores[1] != -1) ((TextView) v.findViewById(R.id.enemyScore)).setText(scores[1] + "");
+        else ((TextView) v.findViewById(R.id.enemyScore)).setText("Waiting for results!");
 
         return v;
     }
@@ -61,5 +69,8 @@ public class WaitingFragment extends Fragment {
     public void setResults(long[] results) {
         this.results = results;
     }
-    // TODO: Maybe show current score while waiting.
+
+    public void setScores(int[] scores) {
+        this.scores = scores;
+    }
 }

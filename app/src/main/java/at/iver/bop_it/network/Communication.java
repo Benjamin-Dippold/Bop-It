@@ -84,9 +84,16 @@ public class Communication {
         return message;
     }
 
-    public static Message generateResultsMessage(long[] times) {
+    public static Message generateResultsMessage(long[] times, int[] scores) {
         Message message = new Message(MessageType.RESULTS);
         message.setData(DataKey.RESULTS, times);
+        message.setData(DataKey.SCORES, scores);
+        return message;
+    }
+
+    public static Message generateVictoryMessage(int winner) {
+        Message message = new Message(MessageType.VICTORY);
+        message.setData(DataKey.ID, winner);
         return message;
     }
 }

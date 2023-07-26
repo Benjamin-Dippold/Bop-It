@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/textView"
-        app:layout_constraintBottom_toTopOf="@+id/myScoreLabel"
+        app:layout_constraintBottom_toTopOf="@+id/myTimeLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,21 +19,21 @@
         app:layout_constraintVertical_weight="2" />
 
     <TextView
-        android:id="@+id/myScoreLabel"
+        android:id="@+id/myTimeLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
         android:gravity="center"
         android:maxLines="2"
         android:text="my Score: "
-        app:layout_constraintBottom_toTopOf= "@id/enemyScoreLabel"
-        app:layout_constraintEnd_toStartOf="@+id/myScore"
+        app:layout_constraintBottom_toTopOf= "@id/enemyTimeLabel"
+        app:layout_constraintEnd_toStartOf="@+id/myTime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_weight="1"/>
 
     <TextView
-        android:id="@+id/enemyScoreLabel"
+        android:id="@+id/enemyTimeLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
@@ -41,9 +41,23 @@
         android:maxLines="2"
         android:text="enemy Score: "
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/enemyScore"
+        app:layout_constraintEnd_toStartOf="@+id/enemyTime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myScoreLabel"
+        app:layout_constraintTop_toBottomOf="@+id/myTimeLabel"
+        app:layout_constraintVertical_weight="1"/>
+
+    <TextView
+        android:id="@+id/myTime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="XXXXms"
+        app:layout_constraintBottom_toTopOf="@+id/myScore"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/myTimeLabel"
+        app:layout_constraintTop_toTopOf="@+id/myTimeLabel"
         app:layout_constraintVertical_weight="1"/>
 
     <TextView
@@ -53,11 +67,25 @@
         android:autoSizeTextType="uniform"
         android:gravity="center"
         android:maxLines="1"
-        android:text="XXXXms "
+        android:text="0"
+        app:layout_constraintBottom_toTopOf="@+id/enemyTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/myTimeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/myTime"
+        app:layout_constraintVertical_weight="1"/>
+
+    <TextView
+        android:id="@+id/enemyTime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="XXXXms"
         app:layout_constraintBottom_toTopOf="@+id/enemyScore"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/myScoreLabel"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/enemyTimeLabel"
+        app:layout_constraintTop_toTopOf="@+id/enemyTimeLabel"
         app:layout_constraintVertical_weight="1"/>
 
     <TextView
@@ -67,10 +95,10 @@
         android:autoSizeTextType="uniform"
         android:gravity="center"
         android:maxLines="1"
-        android:text="XXXXms "
+        android:text="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/enemyScoreLabel"
-        app:layout_constraintTop_toBottomOf="@+id/myScore"
+        app:layout_constraintStart_toEndOf="@+id/enemyTimeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/enemyTime"
         app:layout_constraintVertical_weight="1"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
