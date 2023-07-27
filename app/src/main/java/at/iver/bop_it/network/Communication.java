@@ -116,4 +116,8 @@ public class Communication {
         message.setData(DataKey.SIMON_MODE, simonMode);
         return message;
     }
+
+    public static Message generatePlayAgainMessage() {
+        return new Message(MessageType.PLAY_AGAIN);
+    }
 }

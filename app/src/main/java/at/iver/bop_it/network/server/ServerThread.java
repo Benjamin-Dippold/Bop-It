@@ -3,6 +3,7 @@ package at.iver.bop_it.network.server;
 
 import static at.iver.bop_it.network.Communication.generateGiveIdMessage;
 import static at.iver.bop_it.network.Communication.generateNameChangeMessage;
+import static at.iver.bop_it.network.Communication.generatePlayAgainMessage;
 import static at.iver.bop_it.network.Communication.generatePromptMessage;
 import static at.iver.bop_it.network.Communication.generatePromptWithExtraMessage;
 import static at.iver.bop_it.network.Communication.generateResultsMessage;
@@ -113,6 +114,7 @@ public class ServerThread extends Thread {
     public void startGame(int rounds, boolean simonModeActive) {
         pointsNeededToWin = rounds;
         this.simonModeActive = simonModeActive;
+        scores = new int[2];
         sendMessageToAllClients(generateStartGameMessage());
         waitAndGiveNewPrompt();
     }
@@ -300,7 +302,9 @@ public class ServerThread extends Thread {
 
     private int numOfRematchRequests;
 
-    public void sendRematchToAll() {}
+    public void sendRematchToAll() {
+        sendMessageToAllClients(generatePlayAgainMessage());
+    }
 
     public void sendNameChangeToAll(String name, int playerId) {
         sendMessageToAllClients(generateNameChangeMessage(name, playerId));

@@ -3,6 +3,7 @@ package at.iver.bop_it;
 
 import static at.iver.bop_it.network.Communication.generateFinishMessage;
 import static at.iver.bop_it.network.Communication.generateNameChangeMessage;
+import static at.iver.bop_it.network.Communication.generatePlayAgainMessage;
 import static at.iver.bop_it.network.Communication.generateStartGameMessage;
 
 import android.content.Context;
@@ -256,6 +257,9 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                         case START_GAME:
                             startGame();
                             break;
+                        case PLAY_AGAIN:
+                            goToSettings();
+                            break;
                     }
                 });
     }
@@ -331,5 +335,9 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
 
     public void playImposterPreview(View v) {
         SoundProvider.getInstance().playVoiceLine(R.raw.hold_normal, this);
+    }
+
+    public void playAgain(View v) {
+        connection.sendMessage(generatePlayAgainMessage());
     }
 }

@@ -30,6 +30,9 @@ public class ServerMessageHandler implements IHandleMessage {
             case START_GAME:
                 handleStartGame(message);
                 break;
+            case PLAY_AGAIN:
+                handlePlayAgain();
+                break;
         }
     }
 
@@ -72,7 +75,7 @@ public class ServerMessageHandler implements IHandleMessage {
         serverThread.startGame(rounds, simonMode);
     }
 
-    private void handleRematch() {
+    private void handlePlayAgain() {
         serverThread.sendRematchToAll();
     }
 }

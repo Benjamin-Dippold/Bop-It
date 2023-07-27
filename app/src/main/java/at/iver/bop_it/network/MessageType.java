@@ -11,5 +11,6 @@ public enum MessageType {
     FINISH,
     VICTORY,
     UPDATE_NAME,
-    START_GAME
+    START_GAME,
+    PLAY_AGAIN
 }
