@@ -12,4 +12,5 @@ public enum DataKey {
     NAME,
     SIMON_MODE,
     ROUNDS,
+    ROUND_RECORDS
 }

@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.List;
+import at.iver.bop_it.RoundRecord;
 
 public class Communication {
 
@@ -93,9 +95,10 @@ public class Communication {
         return message;
     }
 
-    public static Message generateVictoryMessage(int winner) {
+    public static Message generateVictoryMessage(int winner, List<RoundRecord> rounds) {
         Message message = new Message(MessageType.VICTORY);
         message.setData(DataKey.ID, winner);
+        message.setData(DataKey.ROUND_RECORDS, rounds);
         return message;
     }
 
@@ -110,7 +113,7 @@ public class Communication {
         return new Message(MessageType.START_GAME);
     }
 
-    public static Message generateStartGameMessage(int rounds,boolean simonMode) {
+    public static Message generateStartGameMessage(int rounds, boolean simonMode) {
         Message message = new Message(MessageType.START_GAME);
         message.setData(DataKey.ROUNDS, rounds);
         message.setData(DataKey.SIMON_MODE, simonMode);

@@ -19,6 +19,7 @@ import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import at.iver.bop_it.MainActivity;
+import at.iver.bop_it.RoundRecord;
 import at.iver.bop_it.network.Message;
 import at.iver.bop_it.prompts.AbstractPrompt;
 import at.iver.bop_it.prompts.solve_it.Question;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -52,8 +54,9 @@ public class ServerThread extends Thread {
     private final ArrayList<ClientHandler> connections = new ArrayList<>();
     private boolean waitingForFinishers = false;
     private final Map<Integer, Long> finishers = new HashMap<>();
-    private final int[] scores = new int[2];
+    private int[] scores;
     private boolean isSimon;
+    private List<RoundRecord> pastRounds;
 
     public ServerThread(Context context, int port) {
         this.context = context;
@@ -115,6 +118,7 @@ public class ServerThread extends Thread {
         pointsNeededToWin = rounds;
         this.simonModeActive = simonModeActive;
         scores = new int[2];
+        pastRounds = new ArrayList<>();
         sendMessageToAllClients(generateStartGameMessage());
         waitAndGiveNewPrompt();
     }
@@ -140,6 +144,8 @@ public class ServerThread extends Thread {
                 else results[i] = AbstractPrompt.maxTimePerPrompt;
             }
         }
+
+        pastRounds.get(pastRounds.size() - 1).setScores(results);
 
         calculateAndNotifyWinner(results);
 
@@ -172,12 +178,12 @@ public class ServerThread extends Thread {
             }
         }
         if (scores[0] >= pointsNeededToWin) {
-            sendMessageToAllClients(generateVictoryMessage(0));
+            sendMessageToAllClients(generateVictoryMessage(0, pastRounds));
             return;
         }
 
         if (scores[1] >= pointsNeededToWin) {
-            sendMessageToAllClients(generateVictoryMessage(1));
+            sendMessageToAllClients(generateVictoryMessage(1, pastRounds));
             return;
         }
 
@@ -204,6 +210,8 @@ public class ServerThread extends Thread {
                                 }
 
                                 int randomIndex = new Random().nextInt(MainActivity.possiblePrompts.length);
+
+                                pastRounds.add(new RoundRecord(MainActivity.promptNames[randomIndex], isSimon));
 
                                 if (MainActivity.possiblePrompts[randomIndex] == SolvePrompt.class) {
                                     int extra = Question.getRandomQuestionId();

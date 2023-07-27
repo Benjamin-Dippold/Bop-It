@@ -10,6 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:autoSizeTextType="uniform"
+        android:gravity="center"
         android:text="You Won!"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,19 +20,36 @@
         android:id="@+id/btn_play_again"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:onClick="playAgain"
         android:text="Play Again"
+        app:layout_constraintBottom_toTopOf="@+id/tableHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/victory_message" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TODO: History of all prompts and times of this round here"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/postGameHistory"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tableHeader" />
+
+    <include
+        android:id="@+id/tableHeader"
+        layout="@layout/round_record_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/postGameHistory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_play_again" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

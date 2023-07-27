@@ -32,37 +32,10 @@ public class WaitingFragment extends Fragment {
     }
 
     public void updateTextViews() {
-        String playerResult;
-        switch ((int) results[0]) {
-            case 0:
-                playerResult = "Waiting for results!";
-                break;
-            case -1:
-                playerResult = "DNF";
-                break;
-            case -2:
-                playerResult = "Failure";
-                break;
-            default:
-                playerResult = results[0] + "ms";
-        }
+        String playerResult = convertResults(results[0]);
         ((TextView) v.findViewById(R.id.myTime)).setText(playerResult);
 
-        String otherPlayerResult;
-        switch ((int) results[1]) {
-            case 0:
-                otherPlayerResult = "Waiting for results!";
-                break;
-            case -1:
-                otherPlayerResult = "DNF";
-                break;
-            case -2:
-                otherPlayerResult = "Failure";
-                break;
-            default:
-                otherPlayerResult = results[1] + "ms";
-        }
-
+        String otherPlayerResult = convertResults(results[1]);
         ((TextView) v.findViewById(R.id.enemyTime)).setText(otherPlayerResult);
 
         if (scores[0] != -1) ((TextView) v.findViewById(R.id.myScore)).setText(scores[0] + "");
@@ -81,5 +54,18 @@ public class WaitingFragment extends Fragment {
 
     public void setScores(int[] scores) {
         this.scores = scores;
+    }
+
+    public static String convertResults(long result) {
+        switch ((int) result) {
+            case 0:
+                return "Waiting for results!";
+            case -1:
+                return "DNF";
+            case -2:
+                return "Failed";
+            default:
+                return result + "ms";
+        }
     }
 }

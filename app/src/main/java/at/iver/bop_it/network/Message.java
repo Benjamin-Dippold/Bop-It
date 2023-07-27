@@ -3,6 +3,7 @@ package at.iver.bop_it.network;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Message implements Serializable {
@@ -55,6 +56,8 @@ public class Message implements Serializable {
                 return value instanceof Boolean;
             case NAME:
                 return value instanceof String;
+            case ROUND_RECORDS:
+                return value instanceof List;
             default:
                 return false;
         }

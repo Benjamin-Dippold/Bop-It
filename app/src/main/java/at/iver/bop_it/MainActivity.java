@@ -8,6 +8,7 @@ import static at.iver.bop_it.network.Communication.generateStartGameMessage;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import at.iver.bop_it.network.DataKey;
 import at.iver.bop_it.network.Message;
 import at.iver.bop_it.network.client.ClientConnector;
@@ -29,6 +32,7 @@ import at.iver.bop_it.prompts.*;
 import at.iver.bop_it.prompts.solve_it.SolvePrompt;
 import at.iver.bop_it.sound.SoundProvider;
 import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements UIUpdateListener {
 
@@ -44,18 +48,32 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     private final Context context = this;
 
     public static Class<? extends AbstractPrompt>[] possiblePrompts =
-            new Class[] {
-                FlingPrompt.class,
-                TapPrompt.class,
-                DoubleTapPrompt.class,
-                HoldPrompt.class,
-                ShakePrompt.class,
-                TurnPrompt.class,
-                PinchPrompt.class,
-                ZoomPrompt.class,
-                VolumeUpPrompt.class,
-                VolumeDownPrompt.class,
-                SolvePrompt.class
+            new Class[]{
+                    FlingPrompt.class,
+                    TapPrompt.class,
+                    DoubleTapPrompt.class,
+                    HoldPrompt.class,
+                    ShakePrompt.class,
+                    TurnPrompt.class,
+                    PinchPrompt.class,
+                    ZoomPrompt.class,
+                    VolumeUpPrompt.class,
+                    VolumeDownPrompt.class,
+                    SolvePrompt.class
+            };
+    public static String[] promptNames =
+            new String[]{
+                    "Fling it!",
+                    "Tap it!",
+                    "Double Tap it!",
+                    "Hold it!",
+                    "Shake it!",
+                    "Turn it!",
+                    "Pinch it!",
+                    "Zoom it!",
+                    "Volume Up!",
+                    "Volume Down!",
+                    "Solve it!"
             };
 
     @Override
@@ -239,7 +257,8 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                             break;
                         case VICTORY:
                             int winner = (int) message.getData(DataKey.ID);
-                            endGame(playerId == winner);
+                            List<RoundRecord> roundHistory = (List<RoundRecord>) message.getData(DataKey.ROUND_RECORDS);
+                            endGame(playerId == winner, roundHistory);
                             break;
                         case UPDATE_NAME:
                             String name = (String) message.getData(DataKey.NAME);
@@ -264,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                 });
     }
 
-    private void endGame(boolean isVictorious) {
+    private void endGame(boolean isVictorious, List<RoundRecord> history) {
         Fragment currentPrompt = getSupportFragmentManager().findFragmentByTag("currentPrompt");
         if (currentPrompt != null)
             currentPrompt.onDestroyView(); // make sure the DNF-Timer is no longer running
@@ -276,7 +295,37 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
             ((TextView) findViewById(R.id.victory_message)).setText("You Lost!");
         }
 
+        if (!isHost) {
+            for (RoundRecord record : history) {
+                record.swapScores();
+            }
+        }
+        ((RecyclerView) findViewById(R.id.postGameHistory)).setLayoutManager(new LinearLayoutManager(this));
+        ((RecyclerView) findViewById(R.id.postGameHistory)).setAdapter(new RoundRecord.RoundRecordAdapter(history));
+
+        setupTableHeader();
+
         if (!isHost) findViewById(R.id.btn_play_again).setVisibility(View.INVISIBLE);
+    }
+
+    public void setupTableHeader() {
+        View tableHeader = findViewById(R.id.tableHeader);
+
+        TextView prompt = tableHeader.findViewById(R.id.promptName);
+        prompt.setText("Prompt");
+        prompt.setTypeface(null, Typeface.BOLD);
+
+        TextView player = tableHeader.findViewById(R.id.timePlayerOne);
+        player.setText(WaitingFragment.playerName);
+        player.setTypeface(null, Typeface.BOLD);
+
+        TextView opponent = tableHeader.findViewById(R.id.timePlayerTwo);
+        opponent.setText(WaitingFragment.enemyName);
+        opponent.setTypeface(null, Typeface.BOLD);
+
+        TextView isSimonText = tableHeader.findViewById(R.id.simonPrompt);
+        isSimonText.setText("Fake");
+        isSimonText.setTypeface(null, Typeface.BOLD);
     }
 
     public void clientCallback(boolean success) {
