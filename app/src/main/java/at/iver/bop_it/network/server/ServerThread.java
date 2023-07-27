@@ -6,6 +6,7 @@ import static at.iver.bop_it.network.Communication.generateNameChangeMessage;
 import static at.iver.bop_it.network.Communication.generatePromptMessage;
 import static at.iver.bop_it.network.Communication.generatePromptWithExtraMessage;
 import static at.iver.bop_it.network.Communication.generateResultsMessage;
+import static at.iver.bop_it.network.Communication.generateStartGameMessage;
 import static at.iver.bop_it.network.Communication.generateVictoryMessage;
 
 import android.annotation.SuppressLint;
@@ -36,8 +37,8 @@ import java.util.Random;
 public class ServerThread extends Thread {
     private static final int MIN_TIME_BETWEEN_PROMPTS = 2000;
     private static final int MAX_TIME_BETWEEN_PROMPTS = 5000;
-    private static final int POINTS_NEEDED_TO_WIN = 10;
-    private static final boolean simonModeActive = true;
+    private int pointsNeededToWin = 10;
+    private boolean simonModeActive = true;
     private static final String TAG = "ServerThread";
     private final Context context;
     private final int port;
@@ -70,9 +71,8 @@ public class ServerThread extends Thread {
             Log.e(TAG, "IO Exception on Server!", ex);
         }
         if (!serverSocket.isClosed()) {
-            createGame();
             ((MainActivity) context)
-                    .runOnUiThread(() -> ((MainActivity) context).startGame(new View(context)));
+                    .runOnUiThread(() -> ((MainActivity) context).goToSettings());
         }
     }
 
@@ -101,7 +101,6 @@ public class ServerThread extends Thread {
         return client;
     }
 
-    private void createGame() {}
 
     public synchronized void addFinishedPlayer(int playerId, long finishTime) {
         finishers.put(playerId, finishTime);
@@ -111,11 +110,18 @@ public class ServerThread extends Thread {
         return waitingForFinishers;
     }
 
+    public void startGame(int rounds, boolean simonModeActive) {
+        pointsNeededToWin = rounds;
+        this.simonModeActive = simonModeActive;
+        sendMessageToAllClients(generateStartGameMessage());
+        waitAndGiveNewPrompt();
+    }
+
     public synchronized void setWaitingForFinishers(boolean waitingForFinishers) {
         this.waitingForFinishers = waitingForFinishers;
     }
 
-    public synchronized void processFinishers() throws IOException {
+    public synchronized void processFinishers() {
         // processing finishers
         long[] results = new long[connections.size()];
 
@@ -138,7 +144,7 @@ public class ServerThread extends Thread {
         finishers.clear(); // clear the list after processing
     }
 
-    private void calculateAndNotifyWinner(long[] results) throws IOException {
+    private void calculateAndNotifyWinner(long[] results) {
         if ((results[0] < 0 && results[1] < 0) || (results[0] == results[1])) {
             // no winners
             Log.v(TAG, "Case1");
@@ -163,12 +169,12 @@ public class ServerThread extends Thread {
                 }
             }
         }
-        if (scores[0] >= POINTS_NEEDED_TO_WIN) {
+        if (scores[0] >= pointsNeededToWin) {
             sendMessageToAllClients(generateVictoryMessage(0));
             return;
         }
 
-        if (scores[1] >= POINTS_NEEDED_TO_WIN) {
+        if (scores[1] >= pointsNeededToWin) {
             sendMessageToAllClients(generateVictoryMessage(1));
             return;
         }
@@ -189,24 +195,20 @@ public class ServerThread extends Thread {
                         new java.util.TimerTask() {
                             @Override
                             public void run() {
-                                try {
-                                    if (simonModeActive) {
-                                        isSimon = new Random().nextBoolean();
-                                    } else {
-                                        isSimon = true;
-                                    }
+                                if (simonModeActive) {
+                                    isSimon = new Random().nextBoolean();
+                                } else {
+                                    isSimon = true;
+                                }
 
-                                    int randomIndex = new Random().nextInt(MainActivity.possiblePrompts.length);
+                                int randomIndex = new Random().nextInt(MainActivity.possiblePrompts.length);
 
-                                    if (MainActivity.possiblePrompts[randomIndex] == SolvePrompt.class) {
-                                        int extra = Question.getRandomQuestionId();
-                                        sendMessageToAllClients(
-                                                generatePromptWithExtraMessage(randomIndex, extra, isSimon));
-                                    } else {
-                                        sendMessageToAllClients(generatePromptMessage(randomIndex, isSimon));
-                                    }
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
+                                if (MainActivity.possiblePrompts[randomIndex] == SolvePrompt.class) {
+                                    int extra = Question.getRandomQuestionId();
+                                    sendMessageToAllClients(
+                                            generatePromptWithExtraMessage(randomIndex, extra, isSimon));
+                                } else {
+                                    sendMessageToAllClients(generatePromptMessage(randomIndex, isSimon));
                                 }
                             }
                         },
@@ -244,7 +246,7 @@ public class ServerThread extends Thread {
         return serverSocket.getInetAddress();
     }
 
-    public void sendMessageToAllClients(Message message) throws IOException {
+    public void sendMessageToAllClients(Message message) {
         for (ClientHandler client : connections) {
             client.sendMessage(message);
         }
@@ -298,9 +300,9 @@ public class ServerThread extends Thread {
 
     private int numOfRematchRequests;
 
-    public void sendRematchToAll() throws IOException {}
+    public void sendRematchToAll() {}
 
-    public void sendNameChangeToAll(String name, int playerId) throws IOException {
+    public void sendNameChangeToAll(String name, int playerId) {
         sendMessageToAllClients(generateNameChangeMessage(name, playerId));
     }
 

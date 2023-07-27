@@ -42,6 +42,7 @@ public class Message implements Serializable {
             case TYPE:
             case ID:
             case EXTRA:
+            case ROUNDS:
                 return value instanceof Integer;
             case TIME:
                 return value instanceof Long;
@@ -50,6 +51,7 @@ public class Message implements Serializable {
             case SCORES:
                 return value instanceof int[];
             case ISSIMON:
+            case SIMON_MODE:
                 return value instanceof Boolean;
             case NAME:
                 return value instanceof String;

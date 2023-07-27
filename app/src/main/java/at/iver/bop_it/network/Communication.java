@@ -105,4 +105,15 @@ public class Communication {
         message.setData(DataKey.NAME, name);
         return message;
     }
+
+    public static Message generateStartGameMessage() {
+        return new Message(MessageType.START_GAME);
+    }
+
+    public static Message generateStartGameMessage(int rounds,boolean simonMode) {
+        Message message = new Message(MessageType.START_GAME);
+        message.setData(DataKey.ROUNDS, rounds);
+        message.setData(DataKey.SIMON_MODE, simonMode);
+        return message;
+    }
 }

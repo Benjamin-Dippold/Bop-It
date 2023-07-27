@@ -48,7 +48,7 @@ public class ClientConnector extends Thread {
         this.port = port;
     }
 
-    public void sendMessage(Message msg) throws IOException {
+    public void sendMessage(Message msg) {
         comm.sendMessage(msg);
         Log.i(TAG, "Sent message: " + msg.getType());
     }

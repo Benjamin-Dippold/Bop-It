@@ -3,6 +3,7 @@ package at.iver.bop_it;
 
 import static at.iver.bop_it.network.Communication.generateFinishMessage;
 import static at.iver.bop_it.network.Communication.generateNameChangeMessage;
+import static at.iver.bop_it.network.Communication.generateStartGameMessage;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,7 @@ import at.iver.bop_it.network.client.ClientConnector;
 import at.iver.bop_it.network.server.ServerThread;
 import at.iver.bop_it.prompts.*;
 import at.iver.bop_it.prompts.solve_it.SolvePrompt;
+import at.iver.bop_it.sound.SoundProvider;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements UIUpdateListener {
@@ -186,8 +189,6 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
 
         connection.setConnectionTarget(connectionIP, connectionPort);
         connection.start();
-
-        // startGame(new View(context));
     }
 
     public void showIp(View view) {
@@ -251,7 +252,9 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                             Fragment f = getSupportFragmentManager().findFragmentByTag("waitingFragment");
                             if (f != null)
                                 ((WaitingFragment) f).updateTextViews();
-
+                            break;
+                        case START_GAME:
+                            startGame();
                             break;
                     }
                 });
@@ -287,33 +290,46 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                                     .show();
                             return;
                         }
-                        startGame(new View(this));
+                        goToSettings();
                     }
                 });
     }
 
     public void sendName() {
         if (!playerName.isEmpty()) {
-            try {
-                Log.i(TAG, "SENDING NAME: " + playerName + " id: " + playerId);
-                connection.sendMessage(generateNameChangeMessage(playerName, playerId));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            Log.i(TAG, "SENDING NAME: " + playerName + " id: " + playerId);
+            connection.sendMessage(generateNameChangeMessage(playerName, playerId));
         }
     }
 
-    public void startGame(View view) {
+    public void goToSettings() {
+        if (!isHost) {
+            setContentView(R.layout.client_waiting_screen);
+        } else {
+            setContentView(R.layout.settings_screen);
+        }
+    }
 
+    public void sendStartGameRequest(View v) {
+        String requiredScoreText = ((EditText) findViewById(R.id.requiredPointsText)).getText().toString();
+        int requiredScore = Integer.parseInt(requiredScoreText);
+        boolean simonMode = ((RadioButton) findViewById(R.id.radioHard)).isChecked();
+
+        connection.sendMessage(generateStartGameMessage(requiredScore, simonMode));
+    }
+
+    public void startGame() {
         setContentView(R.layout.activity_main);
         fragmentContainerView = findViewById(R.id.fragmentContainerView2);
 
         swapFragmentToWaiting(new long[2], new int[2]);
-        if (!isHost) {
-            Log.i(TAG, "Starting game as client");
-        } else {
-            Log.i(TAG, "Starting game as host");
-            server.waitAndGiveNewPrompt();
-        }
+    }
+
+    public void playNormalPreview(View v) {
+        SoundProvider.getInstance().playVoiceLine(R.raw.do_hold, this);
+    }
+
+    public void playImposterPreview(View v) {
+        SoundProvider.getInstance().playVoiceLine(R.raw.hold_normal, this);
     }
 }

@@ -9,5 +9,7 @@ public enum DataKey {
     RESULTS,
     SCORES,
     ISSIMON,
-    NAME
+    NAME,
+    SIMON_MODE,
+    ROUNDS,
 }

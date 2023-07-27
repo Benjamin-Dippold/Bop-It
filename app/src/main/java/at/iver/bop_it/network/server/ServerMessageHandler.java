@@ -27,10 +27,13 @@ public class ServerMessageHandler implements IHandleMessage {
             case UPDATE_NAME:
                 handleName(message);
                 break;
+            case START_GAME:
+                handleStartGame(message);
+                break;
         }
     }
 
-    public void handleFinishMessage(Message message) throws IOException {
+    public void handleFinishMessage(Message message) {
         int playerId = (int) message.getData(DataKey.ID);
         long finishTime = (long) message.getData(DataKey.TIME);
 
@@ -48,25 +51,28 @@ public class ServerMessageHandler implements IHandleMessage {
                                 @Override
                                 public void run() {
                                     serverThread.setWaitingForFinishers(false);
-                                    try {
-                                        serverThread.processFinishers();
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
+                                    serverThread.processFinishers();
+
                                 }
                             },
                             WAIT_TIME // wait for 1 second before checking
-                            );
+                    );
         }
     }
 
-    private void handleName(Message message) throws IOException {
+    private void handleName(Message message) {
         String name = (String) message.getData(DataKey.NAME);
         int id = (int) message.getData(DataKey.ID);
         serverThread.sendNameChangeToAll(name, id);
     }
 
-    private void handleRematch() throws IOException {
+    private void handleStartGame(Message message) {
+        int rounds = (int) message.getData(DataKey.ROUNDS);
+        boolean simonMode = (boolean) message.getData(DataKey.SIMON_MODE);
+        serverThread.startGame(rounds, simonMode);
+    }
+
+    private void handleRematch() {
         serverThread.sendRematchToAll();
     }
 }
