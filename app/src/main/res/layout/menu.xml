@@ -29,7 +29,7 @@
         android:fontFamily="sans-serif-condensed"
         android:textAlignment="center"
         android:text="DO YOU WANT TO HOST OR JOIN A GAME:"
-        android:textColor="@android:color/holo_orange_light"
+        android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@id/hostButton"
         app:layout_constraintEnd_toEndOf="parent"
