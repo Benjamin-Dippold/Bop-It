@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
 
     public void connectServer(View view) {
         EditText getIp = (EditText) findViewById(R.id.get_text);
-        Button join = (Button) findViewById(R.id.join2);
+        Button join = (Button) findViewById(R.id.joinButton);
 
         join.setVisibility(View.INVISIBLE);
         connectionIP = getIp.getText().toString();
@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         runOnUiThread(
                 () -> {
                     if (!isHost) {
-                        Button join = (Button) findViewById(R.id.join2);
+                        Button join = (Button) findViewById(R.id.joinButton);
                         join.setVisibility(View.VISIBLE);
 
                         if (!success) {

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Please enter the IP address of the host to join the game."
         android:textAlignment="center"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/enterHostPrompt"
         app:layout_constraintEnd_toEndOf="@+id/enterHostPrompt"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Please enter the IP address of the host to join the game."
         android:textAlignment="center"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/get_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,17 +53,17 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="#CCCCCC"
-        app:layout_constraintBottom_toTopOf="@id/join2"
+        app:layout_constraintBottom_toTopOf="@id/joinButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.75" />
 
     <Button
-        android:id="@+id/join2"
+        android:id="@+id/joinButton"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:background="@drawable/button_states"
+        android:background="@drawable/button"
         android:onClick="connectServer"
         android:text="Join Game"
         android:textColor="@android:color/white"
@@ -85,7 +85,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/join2" />
+        app:layout_constraintTop_toBottomOf="@id/joinButton" />
 
     <ImageView
         android:id="@+id/connectingLabel2"
@@ -106,9 +106,9 @@
         android:text="Connecting..."
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/join2"
-        app:layout_constraintEnd_toEndOf="@+id/join2"
-        app:layout_constraintStart_toStartOf="@+id/join2"
-        app:layout_constraintTop_toTopOf="@+id/join2" />
+        app:layout_constraintBottom_toBottomOf="@+id/joinButton"
+        app:layout_constraintEnd_toEndOf="@+id/joinButton"
+        app:layout_constraintStart_toStartOf="@+id/joinButton"
+        app:layout_constraintTop_toTopOf="@+id/joinButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
