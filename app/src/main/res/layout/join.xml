@@ -100,12 +100,12 @@
 
     <TextView
         android:id="@+id/connectingLabel"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
         android:gravity="center"
         android:text="Connecting..."
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/joinButton"
         app:layout_constraintEnd_toEndOf="@+id/joinButton"
         app:layout_constraintStart_toStartOf="@+id/joinButton"
