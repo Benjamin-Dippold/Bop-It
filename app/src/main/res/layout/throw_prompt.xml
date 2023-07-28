@@ -11,7 +11,7 @@
         android:layout_height="164dp"
         android:autoSizeTextType="uniform"
         android:gravity="center"
-        android:text="Hold it!"
+        android:text="Throw it!"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,5 +27,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@drawable/hold" />
+        app:srcCompat="@drawable/ing" />
 </androidx.constraintlayout.widget.ConstraintLayout>

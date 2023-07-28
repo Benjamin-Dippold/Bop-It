@@ -5,100 +5,139 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/backdrop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/backdrop_empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView"
-        app:layout_constraintBottom_toTopOf="@+id/myTimeLabel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="Waiting for Prompt!"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/scoreTable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        android:text="Waiting for Prompt!"
         app:layout_constraintVertical_weight="2" />
 
-    <TextView
-        android:id="@+id/myTimeLabel"
+    <TableLayout
+        android:id="@+id/scoreTable"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        android:maxLines="2"
-        android:text="my Score: "
-        app:layout_constraintBottom_toTopOf= "@id/enemyTimeLabel"
-        app:layout_constraintEnd_toStartOf="@+id/myTime"
+        android:stretchColumns="*"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_weight="1"/>
+        app:layout_constraintVertical_weight="3">
 
-    <TextView
-        android:id="@+id/enemyTimeLabel"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        android:maxLines="2"
-        android:text="enemy Score: "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/enemyTime"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myTimeLabel"
-        app:layout_constraintVertical_weight="1"/>
+        <TableRow>
+            <TextView
+                android:id="@+id/myTimeLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="My Time"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:gravity="center"/>
 
-    <TextView
-        android:id="@+id/myTime"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="XXXXms"
-        app:layout_constraintBottom_toTopOf="@+id/myScore"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/myTimeLabel"
-        app:layout_constraintTop_toTopOf="@+id/myTimeLabel"
-        app:layout_constraintVertical_weight="1"/>
+            <TextView
+                android:id="@+id/myTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="XXXXms"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+        </TableRow>
 
-    <TextView
-        android:id="@+id/myScore"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="0"
-        app:layout_constraintBottom_toTopOf="@+id/enemyTime"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/myTimeLabel"
-        app:layout_constraintTop_toBottomOf="@+id/myTime"
-        app:layout_constraintVertical_weight="1"/>
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@android:color/darker_gray"/>
 
-    <TextView
-        android:id="@+id/enemyTime"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="XXXXms"
-        app:layout_constraintBottom_toTopOf="@+id/enemyScore"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/enemyTimeLabel"
-        app:layout_constraintTop_toTopOf="@+id/enemyTimeLabel"
-        app:layout_constraintVertical_weight="1"/>
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="My Score"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:gravity="center"/>
 
-    <TextView
-        android:id="@+id/enemyScore"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/enemyTimeLabel"
-        app:layout_constraintTop_toBottomOf="@+id/enemyTime"
-        app:layout_constraintVertical_weight="1"/>
+            <TextView
+                android:id="@+id/myScore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+        </TableRow>
+        <View
+            android:layout_height="2dp"
+            android:layout_width="match_parent"
+            android:background="@color/black"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp" />
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@android:color/darker_gray"/>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/enemyTimeLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Enemy Time"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/enemyTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="XXXXms"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@android:color/darker_gray"/>
+
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Enemy Score"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/enemyScore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+        </TableRow>
+    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
