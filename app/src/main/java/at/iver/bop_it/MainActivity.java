@@ -63,8 +63,6 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                     ZoomPrompt.class,
                     VolumeUpPrompt.class,
                     VolumeDownPrompt.class,
-                    VolumeUpPrompt.class,
-                    VolumeDownPrompt.class,
                     BrightnessUpPrompt.class,
                     BrightnessDownPrompt.class,
                     NorthPrompt.class,
