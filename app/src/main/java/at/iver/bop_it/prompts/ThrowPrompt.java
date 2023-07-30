@@ -27,7 +27,7 @@ public class ThrowPrompt extends AbstractPrompt implements SensorEventListener {
     private Handler handler;
 
     public ThrowPrompt() {
-        super(R.layout.throw_prompt);
+        super(R.layout.throw_prompt, R.raw.do_throw_it, R.raw.throw_it_normal);
         isThrowDetected = false;
         handler = new Handler(Looper.getMainLooper());
     }

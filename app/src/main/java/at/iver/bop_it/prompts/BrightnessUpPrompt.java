@@ -16,7 +16,7 @@ public class BrightnessUpPrompt extends AbstractPrompt {
     private Handler handler;
 
     public BrightnessUpPrompt() {
-        super(R.layout.brightnessup_prompt);
+        super(R.layout.brightnessup_prompt, R.raw.do_brighness_up, R.raw.brightness_up_normal);
         isPromptCompleted = false;
     }
 

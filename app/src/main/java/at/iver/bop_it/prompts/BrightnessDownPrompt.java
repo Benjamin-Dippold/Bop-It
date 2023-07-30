@@ -16,7 +16,7 @@ public class BrightnessDownPrompt extends AbstractPrompt {
     private Handler handler;
 
     public BrightnessDownPrompt() {
-        super(R.layout.brightnessdown_prompt);
+        super(R.layout.brightnessdown_prompt, R.raw.do_brighness_down, R.raw.brightness_down_normal);
         isPromptCompleted = false;
     }
 

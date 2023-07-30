@@ -27,7 +27,7 @@ public class NorthPrompt extends AbstractPrompt implements SensorEventListener {
     private float[] geomagnetic;
 
     public NorthPrompt() {
-        super(R.layout.north_prompt);
+        super(R.layout.north_prompt, R.raw.do_turn_north, R.raw.turn_north_normal);
     }
 
     @Nullable

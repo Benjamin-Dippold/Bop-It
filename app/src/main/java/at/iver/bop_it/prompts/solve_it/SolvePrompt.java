@@ -11,7 +11,7 @@ public class SolvePrompt extends AbstractPrompt {
     private Question question;
 
     public SolvePrompt() {
-        super(R.layout.solve_prompt, R.raw.do_solve, -1); // TODO: record fake solve it
+        super(R.layout.solve_prompt, R.raw.do_solve, R.raw.solve_normal); // TODO: record fake solve it
     }
 
     @Override
