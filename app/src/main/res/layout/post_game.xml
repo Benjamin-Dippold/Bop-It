@@ -6,22 +6,25 @@
     android:layout_height="match_parent"
     android:background="@drawable/backdrop_empty">
 
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/victory_message"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:autoSizeTextType="uniform"
         android:gravity="center"
+        android:lines="1"
         android:shadowRadius="20"
         android:text="You Won!"
+        app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:textStrokeWidth="8dp" />
 
     <Button
         android:id="@+id/btn_play_again"
         android:layout_width="250dp"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:onClick="playAgain"
         android:text="Play Again"

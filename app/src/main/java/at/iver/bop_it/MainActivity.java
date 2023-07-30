@@ -115,9 +115,6 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
             }
             server = null;
         }
-        TextView outline = findViewById(R.id.startGamePromptOutline);
-        outline.getPaint().setStrokeWidth(5);
-        outline.getPaint().setStyle(Paint.Style.STROKE);
         isHost = false;
     }
 
@@ -132,9 +129,6 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         mp.start();
         setupName();
         setContentView(R.layout.join);
-        TextView outline = findViewById(R.id.enterHostPromptOutline);
-        outline.getPaint().setStrokeWidth(5);
-        outline.getPaint().setStyle(Paint.Style.STROKE);
     }
 
     public void setupName() {
@@ -149,13 +143,6 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         mp.start();
         isHost = true;
         server = new ServerThread(this, connectionPort);
-
-        TextView showIpOutline = (TextView) findViewById(R.id.ip_label_outline);
-        TextView promptOutline = findViewById(R.id.server_prompt_outline);
-        showIpOutline.getPaint().setStrokeWidth(5);
-        showIpOutline.getPaint().setStyle(Paint.Style.STROKE);
-        promptOutline.getPaint().setStrokeWidth(5);
-        promptOutline.getPaint().setStyle(Paint.Style.STROKE);
 
         server.start();
     }
@@ -234,12 +221,10 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         runOnUiThread(
                 () -> {
                     TextView showIp = (TextView) findViewById(R.id.ip_label);
-                    TextView showIpOutline = (TextView) findViewById(R.id.ip_label_outline);
 
                     connectionIP = server.getIpAddr();
 
                     showIp.setText(connectionIP);
-                    showIpOutline.setText(connectionIP);
 
                     connection = new ClientConnector(this);
                     connection.setConnectionTarget(connectionIP, connectionPort);

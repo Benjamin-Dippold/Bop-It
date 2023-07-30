@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TextViewOutlined">
+        <attr name="textStrokeColor" format="color"/>
+        <attr name="textStrokeWidth" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="Theme.BopIt">
+        <attr name="textViewOutlinedStyle" format="reference" />
+    </declare-styleable>
+
+</resources>
