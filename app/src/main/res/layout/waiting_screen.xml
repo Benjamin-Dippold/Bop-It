@@ -3,141 +3,147 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/backdrop_empty">
 
-    <ImageView
-        android:id="@+id/backdrop"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/backdrop_empty"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/textView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="164dp"
         android:gravity="center"
-        android:textStyle="bold"
         android:text="Waiting for Prompt!"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/scoreTable"
+        android:textSize="50sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="2" />
 
-    <TableLayout
-        android:id="@+id/scoreTable"
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/playerNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLAYER_NAME"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@id/enemyNameLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/myScoreLabel"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:stretchColumns="*"
-        android:padding="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="Score:"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/enemyScoreLabel"
+        app:layout_constraintStart_toStartOf="@+id/enemyScoreLabel"
+        app:layout_constraintTop_toBottomOf="@id/playerNameLabel"
+        tools:layout_constraintBottom_toTopOf="@id/myScore" />
+
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/myScore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/myScoreLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/myScoreLabel"
+        app:layout_constraintTop_toTopOf="@id/myScoreLabel"
+        tools:layout_constraintStart_toEndOf="@id/myScoreLabel" />
+
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/myTimeLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Time:"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/myScoreLabel"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/myScoreLabel"
+        app:layout_constraintTop_toBottomOf="@+id/myScore" />
+
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/myTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="XXXXms"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/myTimeLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/myTimeLabel"
+        app:layout_constraintTop_toTopOf="@id/myTimeLabel" />
+
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/enemyNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ENEMY_NAME"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_weight="3">
+        app:layout_constraintTop_toBottomOf="@+id/playerNameLabel" />
 
-        <TableRow>
-            <TextView
-                android:id="@+id/myTimeLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="My Time"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="center"/>
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/enemyScoreLabel"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="Score:"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/enemyScore"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enemyNameLabel"
+        tools:layout_constraintBottom_toTopOf="@id/enemyScore" />
 
-            <TextView
-                android:id="@+id/myTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="XXXXms"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="center"/>
-        </TableRow>
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/enemyScore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/enemyScoreLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/enemyScoreLabel"
+        app:layout_constraintTop_toTopOf="@+id/enemyScoreLabel" />
 
-        <View
-            android:layout_height="1dp"
-            android:layout_width="match_parent"
-            android:background="@android:color/darker_gray"/>
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/enemyTimeLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Time:"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@id/enemyScoreLabel"
+        app:layout_constraintStart_toStartOf="@id/enemyScoreLabel"
+        app:layout_constraintTop_toBottomOf="@+id/enemyScoreLabel" />
 
-        <TableRow>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="My Score"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="center"/>
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/enemyTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="XXXXms"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/enemyTimeLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/enemyTimeLabel"
+        app:layout_constraintTop_toTopOf="@+id/enemyTimeLabel" />
 
-            <TextView
-                android:id="@+id/myScore"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="center"/>
-        </TableRow>
-        <View
-            android:layout_height="2dp"
-            android:layout_width="match_parent"
-            android:background="@color/black"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp" />
-        <View
-            android:layout_height="1dp"
-            android:layout_width="match_parent"
-            android:background="@android:color/darker_gray"/>
-
-        <TableRow>
-            <TextView
-                android:id="@+id/enemyTimeLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Enemy Time"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/enemyTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="XXXXms"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="center"/>
-        </TableRow>
-
-        <View
-            android:layout_height="1dp"
-            android:layout_width="match_parent"
-            android:background="@android:color/darker_gray"/>
-
-        <TableRow>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Enemy Score"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/enemyScore"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:textSize="20sp"
-                android:layout_weight="1"
-                android:gravity="center"/>
-        </TableRow>
-    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

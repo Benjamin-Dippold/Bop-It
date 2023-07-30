@@ -3,18 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/backdrop"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/backdrop_empty"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="match_parent"
+    android:background="@drawable/backdrop_empty">
 
     <Button
         android:id="@+id/button"
@@ -22,8 +12,6 @@
         android:layout_height="50dp"
         android:onClick="sendStartGameRequest"
         android:text="Start Game"
-        android:background="@drawable/button_states"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,21 +28,54 @@
 
         <RadioButton
             android:id="@+id/radioNormal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:buttonTint="@color/white"
             android:checked="true"
-            android:text="Normal Mode"
+            android:shadowColor="@color/black"
+            android:shadowRadius="20"
+            android:text=" "
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/radioHard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hard Mode"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:buttonTint="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowRadius="20"
+            android:text=" "
+            android:textColor="@color/white"
             android:textSize="20sp" />
+
     </RadioGroup>
 
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/normalModeLabel"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="45dp"
+        android:gravity="center_vertical"
+        android:text="Normal Mode"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/radioGroup"
+        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintTop_toTopOf="@+id/radioGroup" />
+
+    <at.iver.bop_it.TextViewOutlined
+        android:id="@+id/hardModeLabel"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="45dp"
+        android:gravity="center_vertical"
+        android:text="Hard Mode"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/radioGroup"
+        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@id/normalModeLabel" />
+
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,7 +87,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,7 +98,7 @@
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@id/radioGroup" />
 
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -91,8 +112,8 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="175dp"
+        android:layout_height="45dp"
         android:onClick="playNormalPreview"
         android:text="Preview Normal"
         app:layout_constraintBottom_toTopOf="@+id/button"
@@ -102,8 +123,8 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="175dp"
+        android:layout_height="45dp"
         android:onClick="playImposterPreview"
         android:text="Preview Imposter"
         app:layout_constraintBottom_toBottomOf="@+id/button2"
@@ -123,7 +144,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -133,4 +154,5 @@
         app:layout_constraintEnd_toStartOf="@+id/requiredPointsText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/requiredPointsText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

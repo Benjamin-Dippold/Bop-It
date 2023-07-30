@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/promptName"
         android:layout_width="140dp"
         android:layout_height="30dp"
@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/timePlayerOne"
         android:layout_width="100dp"
         android:layout_height="30dp"
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="@+id/promptName"
         app:layout_constraintVertical_bias="0.499" />
 
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/timePlayerTwo"
         android:layout_width="100dp"
         android:layout_height="30dp"
@@ -39,9 +39,9 @@
         app:layout_constraintStart_toEndOf="@+id/timePlayerOne"
         app:layout_constraintTop_toTopOf="@+id/timePlayerOne" />
 
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/simonPrompt"
-        android:layout_width="50dp"
+        android:layout_width="55dp"
         android:layout_height="30dp"
         android:lines="1"
         android:text="TextView"

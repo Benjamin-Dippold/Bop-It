@@ -6,47 +6,20 @@
     android:layout_height="match_parent"
     android:background="@drawable/backdrop_empty">
 
-    <TextView
-        android:id="@+id/server_prompt_outline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="The server is running. Share the IP address below with the client."
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@id/server_prompt"
-        app:layout_constraintEnd_toEndOf="@id/server_prompt"
-        app:layout_constraintStart_toStartOf="@id/server_prompt"
-        app:layout_constraintTop_toTopOf="@id/server_prompt" />
-
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/server_prompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="The server is running. Share the IP address below with the client."
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="25sp"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/ip_label"
+        app:layout_constraintBottom_toTopOf="@+id/toMainMenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/ip_label_outline"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="255.255.255.255"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@id/ip_label"
-        app:layout_constraintEnd_toEndOf="@id/ip_label"
-        app:layout_constraintStart_toStartOf="@id/ip_label"
-        app:layout_constraintTop_toTopOf="@id/ip_label" />
-
-    <TextView
+    <at.iver.bop_it.TextViewOutlined
         android:id="@+id/ip_label"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -57,13 +30,12 @@
         app:layout_constraintBottom_toTopOf="@id/toMainMenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/server_prompt_outline" />
+        app:layout_constraintTop_toBottomOf="@+id/server_prompt" />
 
     <Button
         android:id="@+id/toMainMenu"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:background="@drawable/button_states"
         android:onClick="toMainMenu"
         android:text="Back to Main Menu"
         android:textColor="@android:color/white"
@@ -71,6 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ip_label_outline" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,4 @@
+/* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it.prompts;
 
 import android.hardware.Sensor;
@@ -12,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import at.iver.bop_it.R;
 
 public class ThrowPrompt extends AbstractPrompt implements SensorEventListener {
@@ -32,8 +31,7 @@ public class ThrowPrompt extends AbstractPrompt implements SensorEventListener {
         handler = new Handler(Looper.getMainLooper());
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater,
             @Nullable ViewGroup container,
@@ -45,15 +43,12 @@ public class ThrowPrompt extends AbstractPrompt implements SensorEventListener {
     @Override
     public void onResume() {
         super.onResume();
-        sensorManager = (SensorManager) requireContext().getSystemService(requireContext().SENSOR_SERVICE);
+        sensorManager =
+                (SensorManager) requireContext().getSystemService(requireContext().SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         if (accelerometer != null) {
-            sensorManager.registerListener(
-                    this,
-                    accelerometer,
-                    SensorManager.SENSOR_DELAY_NORMAL
-            );
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
@@ -83,12 +78,14 @@ public class ThrowPrompt extends AbstractPrompt implements SensorEventListener {
                 // If a throw is detected, mark it and trigger the callback after the delay
                 if (!isThrowDetected) {
                     isThrowDetected = true;
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            callBackVictorious();
-                        }
-                    }, THROW_DELAY_MS);
+                    handler.postDelayed(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    callBackVictorious();
+                                }
+                            },
+                            THROW_DELAY_MS);
                 }
             } else {
                 // Reset the throw detection if the acceleration drops below the threshold

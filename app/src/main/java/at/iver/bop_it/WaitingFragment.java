@@ -44,8 +44,8 @@ public class WaitingFragment extends Fragment {
         if (scores[1] != -1) ((TextView) v.findViewById(R.id.enemyScore)).setText(scores[1] + "");
         else ((TextView) v.findViewById(R.id.enemyScore)).setText("Waiting for results!");
 
-        ((TextView) v.findViewById(R.id.myTimeLabel)).setText(playerName);
-        ((TextView) v.findViewById(R.id.enemyTimeLabel)).setText(enemyName);
+        ((TextView) v.findViewById(R.id.playerNameLabel)).setText(playerName);
+        ((TextView) v.findViewById(R.id.enemyNameLabel)).setText(enemyName);
     }
 
     public void setResults(long[] results) {

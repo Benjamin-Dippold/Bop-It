@@ -55,11 +55,10 @@ public class ServerMessageHandler implements IHandleMessage {
                                 public void run() {
                                     serverThread.setWaitingForFinishers(false);
                                     serverThread.processFinishers();
-
                                 }
                             },
                             WAIT_TIME // wait for 1 second before checking
-                    );
+                            );
         }
     }
 

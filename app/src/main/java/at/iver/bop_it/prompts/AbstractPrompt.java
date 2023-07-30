@@ -1,7 +1,10 @@
 /* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it.prompts;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,21 +22,17 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
-import android.graphics.Color;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
 import at.iver.bop_it.MainActivity;
-import at.iver.bop_it.sound.SoundProvider;
+import at.iver.bop_it.R;
+import at.iver.bop_it.SoundProvider;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
-import at.iver.bop_it.R;
 
 public abstract class AbstractPrompt extends Fragment implements SensorEventListener, Serializable {
 
@@ -237,6 +236,7 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
             return false;
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -245,20 +245,27 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         View view = getView();
         if (view != null) {
             ImageView imageView = view.findViewById(R.id.imageView);
-            Animation anim = AnimationUtils.loadAnimation(requireContext(), R.anim.pulse);
-            imageView.startAnimation(anim);
+            if (imageView != null) {
+                Animation anim = AnimationUtils.loadAnimation(requireContext(), R.anim.pulse);
+                imageView.startAnimation(anim);
+            }
 
             TextView textView = view.findViewById(R.id.textView);
-
-            ValueAnimator colorAnim = ValueAnimator.ofObject(new ArgbEvaluator(),
-                    Color.parseColor("#8B4000") , Color.BLUE, Color.RED, Color.DKGRAY, Color.parseColor("#800080"));
-            colorAnim.setDuration(3000);
-            colorAnim.setRepeatCount(ValueAnimator.INFINITE);
-            colorAnim.addUpdateListener(animation -> { int color = (int) animation.getAnimatedValue();
-                textView.setTextColor(color);
-            });
-            colorAnim.start();
-
+            if (textView != null) {
+                ValueAnimator colorAnim = ValueAnimator.ofObject(new ArgbEvaluator(),
+                                Color.parseColor("#8B4000"),
+                                Color.BLUE,
+                                Color.RED,
+                                Color.DKGRAY,
+                                Color.parseColor("#800080"));
+                colorAnim.setDuration(3000);
+                colorAnim.setRepeatCount(ValueAnimator.INFINITE);
+                colorAnim.addUpdateListener(animation -> {
+                    int color = (int) animation.getAnimatedValue();
+                    textView.setTextColor(color);
+                });
+                colorAnim.start();
+            }
         }
     }
 }
