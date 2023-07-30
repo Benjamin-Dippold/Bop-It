@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     private static ClientConnector connection;
     private final Context context = this;
     private MediaPlayer mp;
-    ;
 
     public static Class<? extends AbstractPrompt>[] possiblePrompts =
             new Class[]{
