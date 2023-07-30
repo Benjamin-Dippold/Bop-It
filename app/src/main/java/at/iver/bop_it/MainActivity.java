@@ -9,6 +9,7 @@ import static at.iver.bop_it.network.Communication.generateStartGameMessage;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.content.Intent;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     private String connectionIP;
     private static ClientConnector connection;
     private final Context context = this;
+    private MediaPlayer mp;
+    ;
 
     public static Class<? extends AbstractPrompt>[] possiblePrompts =
             new Class[]{
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mp = MediaPlayer.create(this, R.raw.buttonclick);
         super.onCreate(savedInstanceState);
 
         // server stuff
@@ -97,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     }
 
     public void toMainMenu(View view) {
+        mp.start();
         setContentView(R.layout.menu);
         if (!playerName.isEmpty()) {
             TextView nameInput = findViewById(R.id.name_chooser);
@@ -118,12 +123,14 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     }
 
     public void hostGame(View view) {
+        mp.start();
         setupName();
         setContentView(R.layout.host);
         startServer(view);
     }
 
     public void joinGame(View view) {
+        mp.start();
         setupName();
         setContentView(R.layout.join);
         TextView outline = findViewById(R.id.enterHostPromptOutline);
@@ -140,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     }
 
     public void startServer(View view) {
+        mp.start();
         isHost = true;
         server = new ServerThread(this, connectionPort);
 
@@ -210,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     }
 
     public void connectServer(View view) {
+        mp.start();
         EditText getIp = (EditText) findViewById(R.id.get_text);
         Button join = (Button) findViewById(R.id.joinButton);
 
