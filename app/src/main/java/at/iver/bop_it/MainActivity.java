@@ -11,6 +11,10 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                     ZoomPrompt.class,
                     VolumeUpPrompt.class,
                     VolumeDownPrompt.class,
+                    BrightnessUpPrompt.class,
+                    BrightnessDownPrompt.class,
+                    NorthPrompt.class,
+                    ThrowPrompt.class,
                     SolvePrompt.class
             };
     public static String[] promptNames =
@@ -73,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                     "Zoom it!",
                     "Volume Up!",
                     "Volume Down!",
+                    "Brightness Up!",
+                    "Brightness Down!",
+                    "North!",
+                    "Throw it!",
                     "Solve it!"
             };
 
@@ -199,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
 
     public void connectServer(View view) {
         EditText getIp = (EditText) findViewById(R.id.get_text);
-        Button join = (Button) findViewById(R.id.join2);
+        Button join = (Button) findViewById(R.id.joinButton);
 
         join.setVisibility(View.INVISIBLE);
         connectionIP = getIp.getText().toString();
@@ -332,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
         runOnUiThread(
                 () -> {
                     if (!isHost) {
-                        Button join = (Button) findViewById(R.id.join2);
+                        Button join = (Button) findViewById(R.id.joinButton);
                         join.setVisibility(View.VISIBLE);
 
                         if (!success) {

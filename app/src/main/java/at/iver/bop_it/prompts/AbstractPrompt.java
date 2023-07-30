@@ -15,6 +15,14 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
@@ -25,6 +33,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
+import at.iver.bop_it.R;
 
 public abstract class AbstractPrompt extends Fragment implements SensorEventListener, Serializable {
 
@@ -226,6 +235,30 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         public boolean onScaleBegin(@NonNull ScaleGestureDetector scaleGestureDetector) {
             AbstractPrompt.this.onScaleBegin(scaleGestureDetector);
             return false;
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("AbstractPrompt", "onResume");
+
+        View view = getView();
+        if (view != null) {
+            ImageView imageView = view.findViewById(R.id.imageView);
+            Animation anim = AnimationUtils.loadAnimation(requireContext(), R.anim.pulse);
+            imageView.startAnimation(anim);
+
+            TextView textView = view.findViewById(R.id.textView);
+
+            ValueAnimator colorAnim = ValueAnimator.ofObject(new ArgbEvaluator(),
+                    Color.parseColor("#8B4000") , Color.BLUE, Color.RED, Color.DKGRAY, Color.parseColor("#800080"));
+            colorAnim.setDuration(3000);
+            colorAnim.setRepeatCount(ValueAnimator.INFINITE);
+            colorAnim.addUpdateListener(animation -> { int color = (int) animation.getAnimatedValue();
+                textView.setTextColor(color);
+            });
+            colorAnim.start();
+
         }
     }
 }
