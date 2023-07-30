@@ -1,3 +1,4 @@
+/* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it;
 
 import android.content.Context;
@@ -5,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 
 public class TextViewOutlined extends androidx.appcompat.widget.AppCompatTextView {
 
@@ -25,11 +25,17 @@ public class TextViewOutlined extends androidx.appcompat.widget.AppCompatTextVie
         super(context, attrs, defStyle);
 
         if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TextViewOutlined,R.attr.textViewOutlinedStyle,R.style.TextViewWithShadow);
-            strokeColor = a.getColor(R.styleable.TextViewOutlined_textStrokeColor,
-                    getCurrentTextColor());
-            strokeWidth = a.getDimensionPixelSize(R.styleable.TextViewOutlined_textStrokeWidth,
-                    DEFAULT_STROKE_WIDTH);
+            TypedArray a =
+                    context.obtainStyledAttributes(
+                            attrs,
+                            R.styleable.TextViewOutlined,
+                            R.attr.textViewOutlinedStyle,
+                            R.style.TextViewWithShadow);
+            strokeColor =
+                    a.getColor(R.styleable.TextViewOutlined_textStrokeColor, getCurrentTextColor());
+            strokeWidth =
+                    a.getDimensionPixelSize(
+                            R.styleable.TextViewOutlined_textStrokeWidth, DEFAULT_STROKE_WIDTH);
 
             a.recycle();
         } else {
@@ -47,8 +53,7 @@ public class TextViewOutlined extends androidx.appcompat.widget.AppCompatTextVie
 
     @Override
     public void invalidate() {
-        if (!isInvalidateAllowed)
-            return;
+        if (!isInvalidateAllowed) return;
         super.invalidate();
     }
 
@@ -57,23 +62,23 @@ public class TextViewOutlined extends androidx.appcompat.widget.AppCompatTextVie
         if (strokeWidth > 0) {
             isInvalidateAllowed = false;
             Paint p = getPaint();
-            //save the text color
+            // save the text color
             int currentTextColor = getCurrentTextColor();
 
-            //set paint to stroke mode and specify
-            //stroke color and width
+            // set paint to stroke mode and specify
+            // stroke color and width
             p.setStyle(Paint.Style.STROKE);
             p.setStrokeWidth(strokeWidth);
             setTextColor(strokeColor);
-            //draw text stroke
+            // draw text stroke
             super.onDraw(canvas);
 
-            //revert the color back to the one
-            //initially specified
+            // revert the color back to the one
+            // initially specified
             setTextColor(currentTextColor);
-            //set paint to fill mode
+            // set paint to fill mode
             p.setStyle(Paint.Style.FILL);
-            //draw the fill part of text
+            // draw the fill part of text
 
             isInvalidateAllowed = true;
             super.onDraw(canvas);

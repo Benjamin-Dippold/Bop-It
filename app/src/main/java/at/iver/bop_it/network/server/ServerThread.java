@@ -75,8 +75,7 @@ public class ServerThread extends Thread {
             Log.e(TAG, "IO Exception on Server!", ex);
         }
         if (!serverSocket.isClosed()) {
-            ((MainActivity) context)
-                    .runOnUiThread(() -> ((MainActivity) context).goToSettings());
+            ((MainActivity) context).runOnUiThread(() -> ((MainActivity) context).goToSettings());
         }
     }
 
@@ -104,7 +103,6 @@ public class ServerThread extends Thread {
         Log.i(TAG, logMessage);
         return client;
     }
-
 
     public synchronized void addFinishedPlayer(int playerId, long finishTime) {
         finishers.put(playerId, finishTime);
@@ -134,9 +132,10 @@ public class ServerThread extends Thread {
         for (int i = 0; i < connections.size(); i++) {
             if (finishers.containsKey(i)) {
                 results[i] = finishers.get(i);
-                // if the results is higher then the maxTimePerPrompt, then it must have been triggered by
-                // the max time PerPrompt. In this case both users followed the prompt successfully
-                // and minute differences between results (10-20ms) should not give any player a point.
+                // if the results is higher then the maxTimePerPrompt, then it must have been
+                // triggered by the max time PerPrompt. In this case both users followed the
+                // prompt successfully and minute differences between results (10-20ms) should
+                // not give any player a point.
                 if (results[i] > AbstractPrompt.maxTimePerPrompt)
                     results[i] = AbstractPrompt.maxTimePerPrompt;
             } else {
@@ -209,16 +208,22 @@ public class ServerThread extends Thread {
                                     isSimon = true;
                                 }
 
-                                int randomIndex = new Random().nextInt(MainActivity.possiblePrompts.length);
+                                int randomIndex =
+                                        new Random().nextInt(MainActivity.possiblePrompts.length);
 
-                                pastRounds.add(new RoundRecord(MainActivity.promptNames[randomIndex], isSimon));
+                                pastRounds.add(
+                                        new RoundRecord(
+                                                MainActivity.promptNames[randomIndex], isSimon));
 
-                                if (MainActivity.possiblePrompts[randomIndex] == SolvePrompt.class) {
+                                if (MainActivity.possiblePrompts[randomIndex]
+                                        == SolvePrompt.class) {
                                     int extra = Question.getRandomQuestionId();
                                     sendMessageToAllClients(
-                                            generatePromptWithExtraMessage(randomIndex, extra, isSimon));
+                                            generatePromptWithExtraMessage(
+                                                    randomIndex, extra, isSimon));
                                 } else {
-                                    sendMessageToAllClients(generatePromptMessage(randomIndex, isSimon));
+                                    sendMessageToAllClients(
+                                            generatePromptMessage(randomIndex, isSimon));
                                 }
                             }
                         },

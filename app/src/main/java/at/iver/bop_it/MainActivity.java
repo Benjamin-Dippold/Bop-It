@@ -7,15 +7,10 @@ import static at.iver.bop_it.network.Communication.generatePlayAgainMessage;
 import static at.iver.bop_it.network.Communication.generateStartGameMessage;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +30,6 @@ import at.iver.bop_it.network.client.ClientConnector;
 import at.iver.bop_it.network.server.ServerThread;
 import at.iver.bop_it.prompts.*;
 import at.iver.bop_it.prompts.solve_it.SolvePrompt;
-import at.iver.bop_it.sound.SoundProvider;
 import java.io.IOException;
 import java.util.List;
 
@@ -54,40 +48,40 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     private MediaPlayer mp;
 
     public static Class<? extends AbstractPrompt>[] possiblePrompts =
-            new Class[]{
-                    FlingPrompt.class,
-                    TapPrompt.class,
-                    DoubleTapPrompt.class,
-                    HoldPrompt.class,
-                    ShakePrompt.class,
-                    TurnPrompt.class,
-                    PinchPrompt.class,
-                    ZoomPrompt.class,
-                    VolumeUpPrompt.class,
-                    VolumeDownPrompt.class,
-                    BrightnessUpPrompt.class,
-                    BrightnessDownPrompt.class,
-                    NorthPrompt.class,
-                    ThrowPrompt.class,
-                    SolvePrompt.class
+            new Class[] {
+                FlingPrompt.class,
+                TapPrompt.class,
+                DoubleTapPrompt.class,
+                HoldPrompt.class,
+                ShakePrompt.class,
+                TurnPrompt.class,
+                PinchPrompt.class,
+                ZoomPrompt.class,
+                VolumeUpPrompt.class,
+                VolumeDownPrompt.class,
+                BrightnessUpPrompt.class,
+                BrightnessDownPrompt.class,
+                NorthPrompt.class,
+                ThrowPrompt.class,
+                SolvePrompt.class
             };
     public static String[] promptNames =
-            new String[]{
-                    "Fling it!",
-                    "Tap it!",
-                    "Double Tap it!",
-                    "Hold it!",
-                    "Shake it!",
-                    "Turn it!",
-                    "Pinch it!",
-                    "Zoom it!",
-                    "Volume Up!",
-                    "Volume Down!",
-                    "Brightness Up!",
-                    "Brightness Down!",
-                    "North!",
-                    "Throw it!",
-                    "Solve it!"
+            new String[] {
+                "Fling it!",
+                "Tap it!",
+                "Double Tap it!",
+                "Hold it!",
+                "Shake it!",
+                "Turn it!",
+                "Pinch it!",
+                "Zoom it!",
+                "Volume Up!",
+                "Volume Down!",
+                "Brightness Up!",
+                "Brightness Down!",
+                "North!",
+                "Throw it!",
+                "Solve it!"
             };
 
     @Override
@@ -262,7 +256,8 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                             break;
                         case VICTORY:
                             int winner = (int) message.getData(DataKey.ID);
-                            List<RoundRecord> roundHistory = (List<RoundRecord>) message.getData(DataKey.ROUND_RECORDS);
+                            List<RoundRecord> roundHistory =
+                                    (List<RoundRecord>) message.getData(DataKey.ROUND_RECORDS);
                             endGame(playerId == winner, roundHistory);
                             break;
                         case UPDATE_NAME:
@@ -274,9 +269,10 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                             } else {
                                 WaitingFragment.enemyName = name;
                             }
-                            Fragment f = getSupportFragmentManager().findFragmentByTag("waitingFragment");
-                            if (f != null)
-                                ((WaitingFragment) f).updateTextViews();
+                            Fragment f =
+                                    getSupportFragmentManager()
+                                            .findFragmentByTag("waitingFragment");
+                            if (f != null) ((WaitingFragment) f).updateTextViews();
                             break;
                         case START_GAME:
                             startGame();
@@ -305,8 +301,10 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                 record.swapScores();
             }
         }
-        ((RecyclerView) findViewById(R.id.postGameHistory)).setLayoutManager(new LinearLayoutManager(this));
-        ((RecyclerView) findViewById(R.id.postGameHistory)).setAdapter(new RoundRecord.RoundRecordAdapter(history));
+        ((RecyclerView) findViewById(R.id.postGameHistory))
+                .setLayoutManager(new LinearLayoutManager(this));
+        ((RecyclerView) findViewById(R.id.postGameHistory))
+                .setAdapter(new RoundRecord.RoundRecordAdapter(history));
 
         setupTableHeader();
 
@@ -338,12 +336,13 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                 () -> {
                     if (!isHost) {
                         Button join = (Button) findViewById(R.id.joinButton);
-                        if(join!=null) {
+                        if (join != null) {
                             join.setVisibility(View.VISIBLE);
                             if (!success) {
                                 Toast.makeText(
                                                 this,
-                                                "Unable to make Connection. Please recheck IP-Address.",
+                                                "Unable to make Connection. Please recheck"
+                                                        + " IP-Address.",
                                                 Toast.LENGTH_SHORT)
                                         .show();
                                 return;
@@ -370,7 +369,8 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
     }
 
     public void sendStartGameRequest(View v) {
-        String requiredScoreText = ((EditText) findViewById(R.id.requiredPointsText)).getText().toString();
+        String requiredScoreText =
+                ((EditText) findViewById(R.id.requiredPointsText)).getText().toString();
         int requiredScore = Integer.parseInt(requiredScoreText);
         boolean simonMode = ((RadioButton) findViewById(R.id.radioHard)).isChecked();
 

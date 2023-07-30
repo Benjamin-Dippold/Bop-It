@@ -1,13 +1,11 @@
+/* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it.prompts;
 
 import android.content.ContentResolver;
-import android.content.Context;
 import android.database.ContentObserver;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.provider.Settings;
 import android.util.Log;
-
 import at.iver.bop_it.R;
 
 public class BrightnessUpPrompt extends AbstractPrompt {
@@ -25,20 +23,23 @@ public class BrightnessUpPrompt extends AbstractPrompt {
         super.onResume();
 
         resolver = requireContext().getContentResolver();
-        observer = new ContentObserver(new Handler()) {
-            @Override
-            public void onChange(boolean selfChange) {
-                int brightnessAmount = Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS, 0);
-                Log.i(TAG, "Brightness: " + brightnessAmount);
+        observer =
+                new ContentObserver(new Handler()) {
+                    @Override
+                    public void onChange(boolean selfChange) {
+                        int brightnessAmount = Settings.System.getInt(
+                                resolver, Settings.System.SCREEN_BRIGHTNESS, 0);
+                        Log.i(TAG, "Brightness: " + brightnessAmount);
 
-                if (brightnessAmount > minSeenBrightness) {
-                    callBackVictorious();
-                } else if (brightnessAmount < minSeenBrightness) {
-                    minSeenBrightness = brightnessAmount;
-                }
-            }
-        };
-        resolver.registerContentObserver(Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS), false, observer);
+                        if (brightnessAmount > minSeenBrightness) {
+                            callBackVictorious();
+                        } else if (brightnessAmount < minSeenBrightness) {
+                            minSeenBrightness = brightnessAmount;
+                        }
+                    }
+                };
+        resolver.registerContentObserver(
+                Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS), false, observer);
 
         minSeenBrightness = Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS, 0);
     }

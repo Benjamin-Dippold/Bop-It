@@ -1,12 +1,11 @@
+/* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -47,14 +46,12 @@ public class RoundRecord implements Serializable {
         enemyScore = temp;
     }
 
-    public static class RoundRecordAdapter extends RecyclerView.Adapter<RoundRecordAdapter.ViewHolder> {
+    public static class RoundRecordAdapter
+            extends RecyclerView.Adapter<RoundRecordAdapter.ViewHolder> {
 
         private List<RoundRecord> localDataSet;
 
-        /**
-         * Provide a reference to the type of views that you are using
-         * (custom ViewHolder)
-         */
+        /** Provide a reference to the type of views that you are using (custom ViewHolder) */
         public static class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView promptTextView;
             private final TextView timePlayerOneTextView;
@@ -72,20 +69,19 @@ public class RoundRecord implements Serializable {
 
             public void setTexts(RoundRecord record) {
                 promptTextView.setText(record.getPrompt() + "");
-                timePlayerOneTextView.setText(WaitingFragment.convertResults(record.getPlayerScore()));
-                timePlayerTwoTextView.setText(WaitingFragment.convertResults(record.getEnemyScore()));
-                if (record.isSimonMode())
-                    isSimonTextView.setText("No");
-                else
-                    isSimonTextView.setText("Yes");
+                timePlayerOneTextView.setText(
+                        WaitingFragment.convertResults(record.getPlayerScore()));
+                timePlayerTwoTextView.setText(
+                        WaitingFragment.convertResults(record.getEnemyScore()));
+                if (record.isSimonMode()) isSimonTextView.setText("No");
+                else isSimonTextView.setText("Yes");
             }
         }
 
         /**
          * Initialize the dataset of the Adapter
          *
-         * @param dataSet String[] containing the data to populate views to be used
-         *                by RecyclerView
+         * @param dataSet String[] containing the data to populate views to be used by RecyclerView
          */
         public RoundRecordAdapter(List<RoundRecord> dataSet) {
             localDataSet = dataSet;
@@ -95,8 +91,9 @@ public class RoundRecord implements Serializable {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             // Create a new view, which defines the UI of the list item
-            View view = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.round_record_item, viewGroup, false);
+            View view =
+                    LayoutInflater.from(viewGroup.getContext())
+                            .inflate(R.layout.round_record_item, viewGroup, false);
 
             return new ViewHolder(view);
         }
@@ -117,4 +114,3 @@ public class RoundRecord implements Serializable {
         }
     }
 }
-

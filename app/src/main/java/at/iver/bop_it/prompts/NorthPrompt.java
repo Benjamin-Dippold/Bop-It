@@ -1,3 +1,4 @@
+/* Licensed under GNU GPL v3.0 (C) 2023 */
 package at.iver.bop_it.prompts;
 
 import android.content.Context;
@@ -6,14 +7,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import at.iver.bop_it.R;
 
 public class NorthPrompt extends AbstractPrompt implements SensorEventListener {
@@ -30,8 +28,7 @@ public class NorthPrompt extends AbstractPrompt implements SensorEventListener {
         super(R.layout.north_prompt, R.raw.do_turn_north, R.raw.turn_north_normal);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater,
             @Nullable ViewGroup container,
@@ -48,16 +45,8 @@ public class NorthPrompt extends AbstractPrompt implements SensorEventListener {
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         if (accelerometer != null && magnetometer != null) {
-            sensorManager.registerListener(
-                    this,
-                    accelerometer,
-                    SensorManager.SENSOR_DELAY_NORMAL
-            );
-            sensorManager.registerListener(
-                    this,
-                    magnetometer,
-                    SensorManager.SENSOR_DELAY_NORMAL
-            );
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
@@ -83,12 +72,8 @@ public class NorthPrompt extends AbstractPrompt implements SensorEventListener {
         if (gravity != null && geomagnetic != null) {
             float[] rotationMatrix = new float[9];
             float[] orientation = new float[3];
-            boolean success = SensorManager.getRotationMatrix(
-                    rotationMatrix,
-                    null,
-                    gravity,
-                    geomagnetic
-            );
+            boolean success =
+                    SensorManager.getRotationMatrix(rotationMatrix, null, gravity, geomagnetic);
 
             if (success) {
                 SensorManager.getOrientation(rotationMatrix, orientation);

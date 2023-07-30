@@ -2,13 +2,13 @@
 package at.iver.bop_it.network;
 
 import android.util.Log;
+import at.iver.bop_it.RoundRecord;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.List;
-import at.iver.bop_it.RoundRecord;
 
 public class Communication {
 

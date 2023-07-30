@@ -1,5 +1,5 @@
 /* Licensed under GNU GPL v3.0 (C) 2023 */
-package at.iver.bop_it.sound;
+package at.iver.bop_it;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -9,8 +9,7 @@ public class SoundProvider {
 
     private static SoundProvider instance;
 
-    private SoundProvider() {
-    }
+    private SoundProvider() {}
 
     public static SoundProvider getInstance() {
         if (instance == null) {
