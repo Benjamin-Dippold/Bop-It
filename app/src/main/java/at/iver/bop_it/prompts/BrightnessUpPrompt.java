@@ -2,6 +2,7 @@ package at.iver.bop_it.prompts;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.database.ContentObserver;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.Settings;
@@ -10,80 +11,41 @@ import android.util.Log;
 import at.iver.bop_it.R;
 
 public class BrightnessUpPrompt extends AbstractPrompt {
-    private boolean isPromptCompleted;
-    private static final String TAG = "BrightnessUpPrompt";
-    private HandlerThread handlerThread;
-    private Handler handler;
+    private static final String TAG = "BrightnessDownPrompt";
+    private ContentObserver observer;
+    private ContentResolver resolver;
+    private int minSeenBrightness;
 
     public BrightnessUpPrompt() {
         super(R.layout.brightnessup_prompt, R.raw.do_brighness_up, R.raw.brightness_up_normal);
-        isPromptCompleted = false;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("BrightnessUpPrompt", "onResume");
 
-            setBrightnessToDefault();
-            startBrightnessCheck();
+        resolver = requireContext().getContentResolver();
+        observer = new ContentObserver(new Handler()) {
+            @Override
+            public void onChange(boolean selfChange) {
+                int brightnessAmount = Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS, 0);
+                Log.i(TAG, "Brightness: " + brightnessAmount);
 
+                if (brightnessAmount > minSeenBrightness) {
+                    callBackVictorious();
+                } else if (brightnessAmount < minSeenBrightness) {
+                    minSeenBrightness = brightnessAmount;
+                }
+            }
+        };
+        resolver.registerContentObserver(Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS), false, observer);
+
+        minSeenBrightness = Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS, 0);
     }
+
     @Override
     public void onPause() {
+        resolver.unregisterContentObserver(observer);
         super.onPause();
-        stopBrightnessCheck();
     }
-    private void startBrightnessCheck() {
-        handlerThread = new HandlerThread("BrightnessCheckThread");
-        handlerThread.start();
-        handler = new Handler(handlerThread.getLooper());
-        handler.post(brightnessCheckRunnable);
-    }
-
-    private void stopBrightnessCheck() {
-        if (handlerThread != null) {
-            handlerThread.quitSafely();
-            handlerThread = null;
-        }
-    }
-
-    private Runnable brightnessCheckRunnable = new Runnable() {
-        @Override
-        public void run() {
-            checkBrightness();
-            if (!isPromptCompleted()) {
-                handler.postDelayed(this, 10); // Check every 1 second
-            }
-        }
-    };
-
-
-
-    private void checkBrightness() {
-        Context context = requireContext().getApplicationContext();
-        ContentResolver contentResolver = context.getContentResolver();
-        int currentBrightness = Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 0);
-        int startingBrightness = (int) (255*0.5);
-
-        if (currentBrightness > startingBrightness) {
-            isPromptCompleted = true;
-            callBackVictorious();
-        }
-    }
-
-    private void setBrightnessToDefault() {
-        Log.d("BrightnessUpPrompt", "setBrightnessToDefault");
-        Context context = requireContext().getApplicationContext();
-        ContentResolver contentResolver = context.getContentResolver();
-        int maxBrightness = 255;
-        int newBrightness = (int) (maxBrightness * 0.5);
-        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, newBrightness);
-    }
-
-    private boolean isPromptCompleted() {
-        return isPromptCompleted;
-    }
-
-
 }

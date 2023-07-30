@@ -338,17 +338,18 @@ public class MainActivity extends AppCompatActivity implements UIUpdateListener 
                 () -> {
                     if (!isHost) {
                         Button join = (Button) findViewById(R.id.joinButton);
-                        join.setVisibility(View.VISIBLE);
-
-                        if (!success) {
-                            Toast.makeText(
-                                            this,
-                                            "Unable to make Connection. Please recheck IP-Address.",
-                                            Toast.LENGTH_SHORT)
-                                    .show();
-                            return;
+                        if(join!=null) {
+                            join.setVisibility(View.VISIBLE);
+                            if (!success) {
+                                Toast.makeText(
+                                                this,
+                                                "Unable to make Connection. Please recheck IP-Address.",
+                                                Toast.LENGTH_SHORT)
+                                        .show();
+                                return;
+                            }
+                            goToSettings();
                         }
-                        goToSettings();
                     }
                 });
     }
