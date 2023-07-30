@@ -3,18 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/backdrop"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/backdrop_empty"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="match_parent"
+    android:background="@drawable/backdrop_empty">
 
     <Button
         android:id="@+id/button"
@@ -22,8 +12,6 @@
         android:layout_height="50dp"
         android:onClick="sendStartGameRequest"
         android:text="Start Game"
-        android:background="@drawable/button_states"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,15 +30,23 @@
             android:id="@+id/radioNormal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/white"
             android:checked="true"
+            android:shadowColor="@color/black"
+            android:shadowRadius="5"
             android:text="Normal Mode"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/radioHard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowRadius="5"
             android:text="Hard Mode"
+            android:textColor="@color/white"
             android:textSize="20sp" />
     </RadioGroup>
 
@@ -91,8 +87,8 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="175dp"
+        android:layout_height="45dp"
         android:onClick="playNormalPreview"
         android:text="Preview Normal"
         app:layout_constraintBottom_toTopOf="@+id/button"
@@ -102,8 +98,8 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="175dp"
+        android:layout_height="45dp"
         android:onClick="playImposterPreview"
         android:text="Preview Imposter"
         app:layout_constraintBottom_toBottomOf="@+id/button2"
@@ -115,9 +111,13 @@
         android:id="@+id/requiredPointsText"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
         android:ems="10"
         android:inputType="number"
+        android:shadowColor="@color/black"
+        android:shadowRadius="5"
         android:text="10"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView6"

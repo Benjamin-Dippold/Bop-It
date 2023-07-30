@@ -245,20 +245,23 @@ public abstract class AbstractPrompt extends Fragment implements SensorEventList
         View view = getView();
         if (view != null) {
             ImageView imageView = view.findViewById(R.id.imageView);
-            Animation anim = AnimationUtils.loadAnimation(requireContext(), R.anim.pulse);
-            imageView.startAnimation(anim);
+            if(imageView!=null) {
+                Animation anim = AnimationUtils.loadAnimation(requireContext(), R.anim.pulse);
+                imageView.startAnimation(anim);
+            }
 
             TextView textView = view.findViewById(R.id.textView);
-
-            ValueAnimator colorAnim = ValueAnimator.ofObject(new ArgbEvaluator(),
-                    Color.parseColor("#8B4000") , Color.BLUE, Color.RED, Color.DKGRAY, Color.parseColor("#800080"));
-            colorAnim.setDuration(3000);
-            colorAnim.setRepeatCount(ValueAnimator.INFINITE);
-            colorAnim.addUpdateListener(animation -> { int color = (int) animation.getAnimatedValue();
-                textView.setTextColor(color);
-            });
-            colorAnim.start();
-
+            if(textView !=null) {
+                ValueAnimator colorAnim = ValueAnimator.ofObject(new ArgbEvaluator(),
+                        Color.parseColor("#8B4000"), Color.BLUE, Color.RED, Color.DKGRAY, Color.parseColor("#800080"));
+                colorAnim.setDuration(3000);
+                colorAnim.setRepeatCount(ValueAnimator.INFINITE);
+                colorAnim.addUpdateListener(animation -> {
+                    int color = (int) animation.getAnimatedValue();
+                    textView.setTextColor(color);
+                });
+                colorAnim.start();
+            }
         }
     }
 }

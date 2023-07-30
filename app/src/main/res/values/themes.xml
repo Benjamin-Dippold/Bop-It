@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BopIt" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:buttonStyle">@style/ColorfulButtonStyle</item>
+        <item  name="android:textViewStyle">@style/TextViewWithShadow</item>
+    </style>
+
+    <style name="ColorfulButtonStyle" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/button_states</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextViewWithShadow" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:shadowColor">@color/black</item>
+        <item name="android:shadowRadius">5</item>
+    </style>
+
+</resources>

@@ -60,28 +60,11 @@
         app:layout_constraintVertical_bias="0.75" />
 
     <Button
-        android:id="@+id/joinButton"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:background="@drawable/button"
-        android:onClick="connectServer"
-        android:text="Join Game"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/toMainMenu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/get_text2" />
-
-    <Button
         android:id="@+id/toMainMenu"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:background="@drawable/button_states"
         android:onClick="toMainMenu"
         android:text="Back to Main Menu"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,5 +93,18 @@
         app:layout_constraintEnd_toEndOf="@+id/joinButton"
         app:layout_constraintStart_toStartOf="@+id/joinButton"
         app:layout_constraintTop_toTopOf="@+id/joinButton" />
+
+    <Button
+        android:id="@+id/joinButton"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:onClick="connectServer"
+        android:text="Join Game"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/toMainMenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/get_text2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
